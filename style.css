@@ -1,0 +1,979 @@
+/* Estilos gerais */
+body, html {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #F5F5F5;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* Garante que o padding e borda não aumentem o tamanho do elemento */
+}
+
+header {
+    position: relative; /* permite que elementos filhos usem position: absolute */
+    z-index: 1000;
+  }
+
+/* Estilização do cabeçalho (nav) */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #a4161a;
+    z-index: 1000;
+    position: relative; /* Alterei para 'relative' para facilitar a sobreposição do menu */
+}
+
+/* Ajustes do logo */
+.logo {
+    width: 175px;
+    margin-left: 20vh;
+}
+
+@media screen and (max-width: 1080px)  {
+    .logo {
+        margin-left: 0;
+    }
+}
+
+/* Estilos gerais do hambúrguer e menu */
+.hamburger-menu {
+    display: none; /* Escondido por padrão */
+    margin-right: 20px; /* Ajustado para dar mais espaço */
+    font-size: 3rem; /* Ajustei para um tamanho mais adequado */
+    color: white;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efeito de hover no hambúrguer */
+.hamburger-menu:hover {
+    color: black;
+}
+
+/* Ajustes da navbar-nav para centralizar apenas os links */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-right: 20%;
+    flex-grow: 1;
+}
+
+
+
+/* Quando a tela for 1080px ou menor, esconder a navbar original e mostrar o menu de hambúrguer */
+@media (max-width: 1080px) {
+    .navbar-nav {
+        display: none; /* Esconde o menu tradicional */
+        position: fixed;
+        top: 0;
+        right: -100%; /* Coloca o menu fora da tela à direita */
+        width: 100%; /* Largura total da tela */
+        height: 100%; /* Altura total da tela */
+        background-color: #a4161a;
+        z-index: 1000;
+        transition: right 0.3s ease-in-out; /* Efeito de transição para o movimento do menu */
+    }
+
+    .hamburger-menu {
+        display: block; /* Exibe o botão de hambúrguer */
+    }
+
+    /* Mostra o menu quando o hambúrguer for clicado */
+    .hamburger-menu.open + .navbar-nav {
+        right: 0; /* Move o menu para a posição visível */
+    }
+
+    /* Estilizando os links de navegação no menu hambúrguer */
+    .navbar-nav .nav-link {
+        display: block;
+        margin: 20px 0;
+        padding: 10px;
+        color: white;
+        font-size: 18px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background-color 0.3s ease; /* Adicionando transição suave para o hover */
+    }
+
+    .navbar-nav .nav-link:hover {
+        background-color: #ff5757;
+    }
+}
+
+/* Ajustes para o menu hambúrguer abrir/fechar com animação */
+.hamburger-menu.open {
+    color: white; /* Quando o menu estiver aberto, a cor do hambúrguer pode ser diferente */
+}
+
+.hamburguer {
+    display: none;
+    position: absolute;
+    top: 4.5rem;
+    right: 4rem;
+    z-index: 1100;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40px; /* Aumentado */
+    height: 30px; /* Aumentado */
+    padding: 0;
+  }
+  
+  .hamburguer .bar {
+    height: 4px;
+    width: 100%;
+    background-color: white;
+    border-radius: 2px;
+    transition: background-color 0.3s ease; /* animação suave */
+  }
+  
+  .hamburguer:hover .bar {
+    background-color: black;
+  }
+  
+  
+  /* Exibir o botão apenas em telas com largura até 1080px */
+  @media (max-width: 1080px) {
+    .hamburguer {
+      display: flex;
+    }
+  }
+  
+  /* Transformações para X quando o menu está ativo */
+  .menu-fullscreen.ativo ~ .hamburguer .bar:nth-child(1) {
+    transform: rotate(45deg) translateY(9px);
+  }
+  
+  .menu-fullscreen.ativo ~ .hamburguer .bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-fullscreen.ativo ~ .hamburguer .bar:nth-child(3) {
+    transform: rotate(-45deg) translateY(-9px);
+  }
+  
+  /* Esconder botão quando o menu está aberto */
+  .menu-fullscreen.ativo ~ .hamburguer {
+    display: none;
+  }
+  
+  /* Estilo do menu */
+  .menu-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(220, 220, 220);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 1000;
+  }
+  
+  .menu-fullscreen.ativo {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+  
+  .menu-fullscreen ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+  }
+  
+  .menu-fullscreen ul li {
+    margin: 1rem 0;
+    font-size: 1rem;
+    margin-left: 2rem;
+  }
+  
+  .menu-fullscreen a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .menu-fullscreen .fechar {
+    position: absolute;
+    margin-top: 2.6rem;
+    right: 30px;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: black;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    z-index: 1101;
+  }
+
+  .menu-fullscreen .fechar:hover{
+    color: #FF6B6B;
+  }
+  
+  .menuhamb {
+    color: black;
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .espacamentomenus{
+    width: 75%;
+    margin-left: 2rem;
+    
+  }
+  
+  .esconder {
+    display: none !important;
+  }
+
+  .icone-home {
+    position: absolute;
+    top: 6rem;
+    right: 3rem; /* ajustado para alinhar com o botão fechar */
+    font-size: 1.6rem;
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    z-index: 1101;
+  }
+  
+  .icone-home:hover {
+    color: #FF6B6B;
+  }
+
+  .linkshamb a{
+    color:black;
+    transition: color 0.3s ease;
+  }
+
+  .linkshamb a:hover{
+    color: #FF6B6B;
+  }
+  
+  
+
+/* Estilos para os links da navbar */
+.nav-link {
+    padding-right: 10px;
+    margin-right: 20px;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 20px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+/* Efeito de hover nos links da navbar */
+.nav-link:hover {
+    color: #090909;
+    transform: translateY(5px); /* Move o link para baixo quando o mouse passa por cima */
+}
+
+/* Estilização do menu suspenso (dropdown) */
+.nav-item.dropdown {
+    position: relative;
+}
+
+.nav-item.dropdown:hover {
+    transform: translateY(5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Exibe o submenu (dropdown) quando a classe 'show' for adicionada */
+.navbar-nav.show {
+    display: block; /* Exibe o menu de navegação */
+}
+
+/* Exibe o submenu (dropdown) quando a classe 'show' for adicionada */
+.nav-item.dropdown.show .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Faz o menu dropdown descer */
+}
+
+/* Menu dropdown (menu suspenso) */
+.dropdown-menu {
+    position: absolute;
+    top: 100%; /* Posiciona o menu logo abaixo do item do dropdown */
+    left: 0;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    min-width: 180px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    transform: translateY(5px); /* Inicialmente o menu está deslocado para baixo */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Quando o menu dropdown estiver visível */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0); /* Faz o menu dropdown descer */
+}
+
+/* Mostrar o dropdown com efeito suave */
+.nav-item.dropdown.show .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0px); /* Move o menu para a posição final */
+}
+
+/* Estilização do item do menu dropdown */
+.dropdown-item {
+    padding: 8px 15px;
+    margin: 0;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+/* Efeito de hover nos itens do menu dropdown */
+.dropdown-item:hover {
+    color: black;
+    background-color: #efa4a6a6;
+    transform: translateY(5px); /* Move o item para baixo ao passar o mouse */
+}
+
+/* Estilo do rodapé */
+footer {
+    background-color: #161A1D; /* Fundo escuro */
+    color: #FFFFFF; /* Texto branco */
+    margin-top: 10%; /* Espaço acima do rodapé */
+    padding: 30px 0; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto */
+    width: 100%; /* Ocupa toda a largura */
+    font-family: 'Arial', sans-serif; /* Fonte */
+    font-size: 16px; /* Tamanho do texto */
+}
+
+
+/* Configuração do container */
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px; /* Largura máxima do container */
+    margin: 0 auto; /* Centraliza o container */
+    padding: 0 20px; /* Espaçamento lateral */
+}
+
+
+/* Estilo do conteúdo principal do rodapé */
+.footer-content {
+    display: flex; /* Alinha os itens em linha */
+    flex-direction: row; /* Itens na horizontal */
+    justify-content: space-between; /* Espaça igualmente as colunas */
+    align-items: flex-start; /* Alinha os itens ao topo */
+    gap: 30px; /* Espaçamento entre colunas */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+/* Parágrafos no rodapé */
+.footer-content p {
+    margin: 5px 0; /* Espaçamento entre os parágrafos */
+}
+
+/* Configuração das seções de navegação, endereço e contato */
+.footer-address, .footer-contact {
+    flex: 1; /* Garante que as colunas tenham a mesma largura */
+    margin: 0; /* Remove margens extras */
+}
+
+/* Ajuste nos parágrafos das seções */
+.footer-address p, .footer-contact p {
+    display: flex; /* Alinha ícone e texto na mesma linha */
+    align-items: center; /* Centraliza verticalmente ícone e texto */
+    margin: 5px 0; /* Espaçamento entre os parágrafos */
+    font-size: 16px; /* Tamanho do texto */
+    line-height: 1.5; /* Espaçamento entre linhas */
+}
+
+/* Títulos (Navegação, Endereço, Contato) */
+.footer-address p:first-of-type, .footer-contact p:first-of-type {
+    display: block; /* Mantém o título em bloco */
+    font-weight: bold; /* Negrito */
+    margin-bottom: 10px; /* Espaçamento abaixo do título */
+    text-align: left; /* Alinha o título à esquerda */
+}
+
+/* Estilo dos ícones */
+.footer-contact i, .footer-address i {
+    font-size: 18px; /* Tamanho dos ícones */
+    color: #FF6B6B; /* Cor dos ícones */
+    margin-right: 8px; /* Espaço entre o ícone e o texto */
+    flex-shrink: 0; /* Impede o redimensionamento do ícone */
+}
+
+/* Links no rodapé */
+.footer-link {
+    color: #FF6B6B; /* Cor do link */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 14px; /* Tamanho da fonte */
+    font-weight: bold; /* Texto em negrito */
+    transition: color 0.3s ease; /* Transição de cor */
+    display: block; /* Links em linha separados */
+    margin-bottom: 5px; /* Espaçamento entre os links */
+}
+
+.footer-link:hover {
+    color: #FFD166; /* Cor ao passar o mouse */
+}
+
+
+/* Parágrafos gerais no rodapé */
+footer p {
+    margin: 0; /* Remove margens padrão */
+    font-size: 16px; /* Tamanho do texto */
+    line-height: 1.6; /* Espaçamento entre linhas */
+}
+
+/* Estilo responsivo para dispositivos móveis */
+@media (max-width: 767px) {
+    .footer-content {
+        flex-direction: column; /* Alinha em coluna */
+        gap: 20px; /* Aumenta espaçamento entre itens */
+    }
+
+    footer p {
+        font-size: 14px; /* Tamanho menor para leitura em telas pequenas */
+        margin: 0 10px; /* Margem lateral */
+    }
+}
+
+/* Estilo para dispositivos maiores (desktop) */
+@media (min-width: 768px) {
+    .footer-content {
+        flex-direction: row; /* Alinha em linha no desktop */
+        justify-content: space-between; /* Espaça as colunas igualmente */
+    }
+
+    footer p {
+        margin: 0 10px; /* Margem lateral */
+    }
+}
+
+
+
+/* Estilo do container principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+/* Estilo do título */
+#titulo {
+    text-align: center;
+}
+
+/* Outros estilos... */
+
+/* Estilos do formulário */
+.form-container {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.column {
+    flex: 1 1 30%;
+    margin: 0 10px;
+    box-sizing: border-box;
+}
+
+/* Estilo para os campos do formulário */
+.input-field,
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.required{
+    color: red;
+    font-weight: bold;
+}
+
+/* Ajuste para a última linha (Data da Doação e Botão) */
+.row:last-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row:last-child .column {
+    flex: 1 1 48%;
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    padding: 8px 12px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: auto;
+    display: block; /* Garante que o botão esteja em uma nova linha */
+    margin-left: auto; /* Alinha o botão à direita */
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+@media screen and (max-width: 700px) {
+    .row {
+        flex-direction: column; /* Torna as colunas empilhadas */
+        align-items: stretch; /* Garante que as colunas ocupem toda a largura */
+    }
+
+    .column {
+        flex: 1 1 100%; /* Faz as colunas ocuparem 100% da largura */
+        margin: 5px 0; /* Ajusta o espaçamento */
+    }
+
+    button[type="submit"] {
+        margin-left: 0; /* Remove a margem à esquerda */
+        width: 100%; /* Faz o botão ocupar toda a largura */
+        margin-top: 15px; /* Ajusta a margem superior */
+    }
+}
+
+/* Estilo da tabela */
+.table {
+    background-color: white;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th, .table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.table th {
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para botões adicionais */
+.btn-primary{
+    color: white;
+    background-color: #007BFF;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+
+.btn-success {
+    color: white;
+    background-color: #28a745;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+
+.btn-danger {
+    color: white;
+    background-color: #dc3545;
+    cursor: pointer;
+}
+
+.btn-primary:hover{
+    color: white;
+    background-color: #0056b3;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 180px;
+    background-color: #f44336;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 6px 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* acima do ícone */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
+.btnlimp {
+    margin-left: 10px;
+    color: white;
+    background-color: #106cfc;
+    border: none;
+    border-radius: 5px;
+    width: 100px;
+    height: 37px;
+}
+
+.btnlimp:hover {
+    background-color: #094cb8;
+}
+
+/* Estilo para botões específicos */
+#edit, #enviar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+#enviar2 {
+    display: block;
+    margin-top: 2%;
+    margin-left: 0; /* Alinha ao centro horizontalmente */
+    margin-right: auto; /* Alinha ao centro horizontalmente */
+    padding: 15px 30px; /* Aumenta o padding para deixar o botão mais largo e alto */
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    color: white;
+    background-color: #007BFF; /* Cor de fundo azul */
+    border: none;
+    border-radius: 8px; /* Arredonda as bordas do botão */
+    cursor: pointer;
+    text-align: center;
+    width: auto; /* Deixa o botão com o tamanho ajustado automaticamente */
+    max-width: 300px; /* Garante que o botão não fique excessivamente largo */
+    transition: background-color 0.3s ease; /* Transição suave de cor no hover */
+}
+
+#enviar2:hover {
+    background-color: #0056b3; /* Cor mais escura quando o botão for hover */
+}
+
+@media (max-width: 768px) {
+    #enviar2 {
+        font-size: 16px; /* Reduz o tamanho da fonte em telas menores */
+        padding: 12px 24px; /* Ajusta o padding */
+    }
+}
+
+#linkdash {
+    text-decoration: none;
+}
+
+#enviar3 {
+    display: block;
+    margin-top: 3%;
+    margin-left: 0;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#edit {
+    background-color: #4CAF50;
+}
+
+#enviar {
+    background-color: #4CAF50;
+}
+
+#edit:hover, #enviar:hover {
+    background-color: #45a049;
+}
+
+.red{
+    color: red;
+}
+
+.contenthelp,
+.contentform,
+.contenthome
+ {
+    font-size: 18px;
+}
+
+.contenthelp ul li, .contenthome ul li{
+    padding-top: 10px;
+}
+
+@media screen and (max-width: 400px){
+    .contenthelp h1{
+        font-size: 25px;
+    }
+
+    .contenthome h1{
+        font-size: 25px
+    }
+
+}
+
+.content{
+    margin-bottom: 10%;
+}
+
+#contentmap{
+    font-size: 16px;
+    margin-top: 6%;
+}
+
+#contentmap ul {
+    margin-top: 30px; 
+    margin-bottom: 20px; 
+    padding-left: 20px; 
+}
+
+/**********começo 04/11**************************/
+.dashboard {
+    text-align: center;
+    margin: -10px;
+    padding: 20px;
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.blood-stock {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha seguinte */
+    gap: 2rem;
+    padding: 0;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between; /* Para garantir que os itens se distribuam igualmente */
+}
+
+@media screen and (max-width: 850px) {
+    .blood-stock {
+        justify-content: center; /* Para centralizar os itens em telas menores */
+    }
+}
+
+
+.blood-type {
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    width: calc(25% - 2rem); /* Ajuste a largura para garantir espaçamento nas colunas */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+/* Para telas menores, faça com que as blood-types ocupem mais espaço */
+@media screen and (max-width: 850px) {
+    .blood-type {
+        width: calc(50% - 2rem); /* Ocupa metade do espaço em telas menores */
+    }
+}
+
+.blood-stock > .blood-type {
+    flex: 1 1 calc(25% - 2rem); /* Permite que cada item ocupe 25% do container */
+    margin-bottom: 20px; /* Espaçamento entre os itens */
+}
+
+@media screen and (max-width: 850px) {
+    .blood-stock > .blood-type {
+        flex: 1 1 calc(50% - 2rem); /* Em telas menores, os itens ocupam metade do espaço */
+    }
+}
+
+.blood-type input{
+    margin: 0;
+}
+
+.blood-type h3 {
+    margin-top: 0;
+}
+
+.alert {
+    background-color: #ffe5e5;
+    border: 1px solid #ff6666;
+}
+
+.regular {
+    background-color: rgba(0, 255, 0, 0.2);
+    border: 1px solid #4CAF50;
+}
+
+.warning {
+    color: #ff0000;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.blood-type:hover {
+    transform: scale(1.05);
+}
+
+.donor-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.donor-info th, .donor-info td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.donor-info th {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+.donor-info td {
+    background-color: #f9f9f9;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.donor-info tr:nth-child(even) td {
+    background-color: #f1f1f1;
+}
+
+.donor-info tr:hover td {
+    background-color: #e9f7fc;
+}
+
+#no-data-message {
+    font-size: 16px;
+    color: #e74c3c;
+    text-align: center;
+    font-weight: bold;
+}
+
+#error-message {
+    font-size: 16px;
+    color: #e74c3c;
+    font-weight: bold;
+    text-align: center;
+}
+
+#titledonnor{
+    text-align: center;
+    font-size: 20px;
+}
+
+#dashboardh2{
+    margin-top: 8%;
+}
+
+.path{
+    text-align: left;
+    text-decoration-line: underline;
+}
+
+#path2 {
+    text-decoration-line: underline;
+    margin: 0 10%;
+    padding-top: 2rem;
+    width: auto; 
+    box-sizing: border-box; 
+    text-align: center; 
+    
+}
+ 
+#path3{
+    text-align: left;
+    margin-left: -117%;
+    text-decoration: underline;
+}
+
+#path4{
+    text-decoration: underline;
+    margin-left: 1%;
+    text-align: left;
+}
+
+#path5{
+text-decoration: underline;
+margin-left: 0;
+margin-bottom: 5%;
+}
+
+#pathdash{
+    text-decoration: underline;
+    margin-bottom: 8%;
+}
+
+.ast{
+    color: red;
+}
+
