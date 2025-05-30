@@ -10,6 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 <!doctype html>
 <html lang="pt-br">
 <head>
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SCBST</title>
