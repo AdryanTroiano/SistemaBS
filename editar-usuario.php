@@ -1,5 +1,3 @@
-
-
 <?php
 require_once 'auth.php';
 // Busca os dados do usuário com base no ID passado via requisição
@@ -15,7 +13,6 @@ if ($res->num_rows > 0) {
 }
 ?>
 
-<!-- Formulário para editar as informações do usuário -->
 <form action="?page=salvar" method="POST">
     <input type="hidden" name="acao" value="editar">
     <input type="hidden" name="id" value="<?php print $row->id; ?>">
@@ -25,99 +22,108 @@ if ($res->num_rows > 0) {
         <div class="contentform">
             <div class="form-container">
 
-                <!-- Primeira linha de campos -->
+                <!-- Linha 1: Nome -->
                 <div class="row">
-    <div class="column">
-        <label for="nome">Nome<span class="required">*</span></label>
-        <input type="text" name="nome" id="nome" value="<?php print htmlspecialchars($row->nome); ?>" placeholder="Digite o nome" required>
-    </div>
-</div>
-<div class="row">
-    <div class="column">
-        <label for="cpf">CPF<span class="required">*</span></label>
-        <input type="text" name="cpf" id="cpf" value="<?php print htmlspecialchars($row->cpf); ?>" placeholder="Digite o CPF (apenas números)" required>
-    </div>
-    <div class="column">
-        <label for="sexo">Sexo<span class="required">*</span></label>
-        <select name="sexo" id="sexo" required>
-            <option value="" disabled <?php echo ($row->sexo == '') ? 'selected' : ''; ?>>Selecione o sexo</option>
-            <option value="Masculino" <?php echo ($row->sexo == 'Masculino') ? 'selected' : ''; ?>>Masculino</option>
-            <option value="Feminino" <?php echo ($row->sexo == 'Feminino') ? 'selected' : ''; ?>>Feminino</option>
-            <option value="Outros" <?php echo ($row->sexo == 'Outros') ? 'selected' : ''; ?>>Outros</option>
-        </select>
-    </div>
-    <div class="column">
-        <label for="data-nascimento">Data de Nascimento<span class="required">*</span></label>
-        <input type="date" name="nasc" id="data-nascimento" value="<?php print htmlspecialchars($row->nasc); ?>" required>
-    </div>
-</div>
+                    <div class="column">
+                        <label for="nome">Nome<span class="required">*</span></label>
+                        <input type="text" name="nome" id="nome" value="<?php print htmlspecialchars($row->nome); ?>" placeholder="Digite o nome" required>
+                    </div>
+                </div>
 
-<!-- Segunda linha de campos -->
-<div class="row">
-    <div class="column">
-        <label for="email">E-mail<span class="required">*</span></label>
-        <input type="email" name="email" id="email" value="<?php print htmlspecialchars($row->email); ?>" placeholder="Digite o e-mail" required>
-    </div>
-    <div class="column">
-        <label for="cep">CEP<span class="required">*</span></label>
-        <input type="text" name="cep" id="cep" value="<?php print htmlspecialchars($row->cep); ?>" placeholder="Digite o CEP (apenas números)" required>
-    </div>
-    <div class="column">
-        <label for="endereco">Endereço<span class="required">*</span></label>
-        <input type="text" name="endereco" id="endereco" value="<?php print htmlspecialchars($row->endereco); ?>" placeholder="Digite o endereço" required>
-    </div>
-</div>
+                <!-- Linha 2: CPF, Sexo, Data de Nascimento -->
+                <div class="row">
+                    <div class="column">
+                        <label for="cpf">CPF<span class="required">*</span></label>
+                        <input type="text" name="cpf" id="cpf" value="<?php print htmlspecialchars($row->cpf); ?>" placeholder="Digite o CPF (apenas números)" required>
+                    </div>
+                    <div class="column">
+                        <label for="sexo">Sexo<span class="required">*</span></label>
+                        <select name="sexo" id="sexo" required>
+                            <option value="" disabled <?php echo ($row->sexo == '') ? 'selected' : ''; ?>>Selecione o sexo</option>
+                            <option value="Masculino" <?php echo ($row->sexo == 'Masculino') ? 'selected' : ''; ?>>Masculino</option>
+                            <option value="Feminino" <?php echo ($row->sexo == 'Feminino') ? 'selected' : ''; ?>>Feminino</option>
+                            <option value="Outros" <?php echo ($row->sexo == 'Outros') ? 'selected' : ''; ?>>Outros</option>
+                        </select>
+                    </div>
+                    <div class="column">
+                        <label for="data-nascimento">Data de Nascimento<span class="required">*</span></label>
+                        <input type="date" name="nasc" id="data-nascimento" value="<?php print htmlspecialchars($row->nasc); ?>" required>
+                    </div>
+                </div>
 
-<!-- Terceira linha de campos -->
-<div class="row">
-    <div class="column">
-        <label for="numero">Número<span class="required">*</span></label>
-        <input type="text" name="numero" id="numero" value="<?php print htmlspecialchars($row->numero); ?>" placeholder="Digite o número" required>
-    </div>
-    <div class="column">
-        <label for="bairro">Bairro<span class="required">*</span></label>
-        <input type="text" name="bairro" id="bairro" value="<?php print htmlspecialchars($row->bairro); ?>" placeholder="Digite o bairro" required>
-    </div>
-    <div class="column">
-        <label for="complemento">Complemento</label>
-        <input type="text" name="complemento" id="complemento" value="<?php print htmlspecialchars($row->complemento); ?>" placeholder="Complemento">
-    </div>
-</div>
+                <!-- Linha 3: Email, CEP, Endereço -->
+                <div class="row">
+                    <div class="column">
+                        <label for="email">E-mail<span class="required">*</span></label>
+                        <input type="email" name="email" id="email" value="<?php print htmlspecialchars($row->email); ?>" placeholder="Digite o e-mail" required>
+                    </div>
+                    <div class="column">
+                        <label for="cep">CEP<span class="required">*</span></label>
+                        <input type="text" name="cep" id="cep" value="<?php print htmlspecialchars($row->cep); ?>" placeholder="Digite o CEP (apenas números)" required>
+                    </div>
+                    <div class="column">
+                        <label for="endereco">Endereço<span class="required">*</span></label>
+                        <input type="text" name="endereco" id="endereco" value="<?php print htmlspecialchars($row->endereco); ?>" placeholder="Digite o endereço" required>
+                    </div>
+                </div>
 
-<!-- Quarta linha de campos -->
-<div class="row">
-    <div class="column">
-        <label for="telefone">Telefone<span class="required">*</span></label>
-        <input type="text" name="telefone" id="telefone" value="<?php print htmlspecialchars($row->telefone); ?>" placeholder="Digite o telefone (apenas números)" required>
-    </div>
-    <div class="column">
-        <label for="tipo-sanguineo">Tipo Sanguíneo<span class="required">*</span></label>
-        <select name="ts" id="tipo-sanguineo" required>
-            <option value="" disabled <?php echo ($row->ts == '') ? 'selected' : ''; ?>>Selecione o tipo sanguíneo</option>
-            <option value="A+" <?php echo ($row->ts == 'A+') ? 'selected' : ''; ?>>A+</option>
-            <option value="A-" <?php echo ($row->ts == 'A-') ? 'selected' : ''; ?>>A-</option>
-            <option value="B+" <?php echo ($row->ts == 'B+') ? 'selected' : ''; ?>>B+</option>
-            <option value="B-" <?php echo ($row->ts == 'B-') ? 'selected' : ''; ?>>B-</option>
-            <option value="AB+" <?php echo ($row->ts == 'AB+') ? 'selected' : ''; ?>>AB+</option>
-            <option value="AB-" <?php echo ($row->ts == 'AB-') ? 'selected' : ''; ?>>AB-</option>
-            <option value="O+" <?php echo ($row->ts == 'O+') ? 'selected' : ''; ?>>O+</option>
-            <option value="O-" <?php echo ($row->ts == 'O-') ? 'selected' : ''; ?>>O-</option>
-            <option value="N.A" <?php echo ($row->ts == 'N.A') ? 'selected' : ''; ?>>N.A</option>
-        </select>
-    </div>
-    <div class="column">
-        <label for="data-doacao">Data da Doação<span class="required">*</span></label>
-        <input type="date" name="datedonation" id="data-doacao" value="<?php print htmlspecialchars($row->datedonation); ?>" required>
-    </div>
-</div>
+                <!-- Linha 4: Número, Bairro, Complemento -->
+                <div class="row">
+                    <div class="column">
+                        <label for="numero">Número<span class="required">*</span></label>
+                        <input type="text" name="numero" id="numero" value="<?php print htmlspecialchars($row->numero); ?>" placeholder="Digite o número" required>
+                    </div>
+                    <div class="column">
+                        <label for="bairro">Bairro<span class="required">*</span></label>
+                        <input type="text" name="bairro" id="bairro" value="<?php print htmlspecialchars($row->bairro); ?>" placeholder="Digite o bairro" required>
+                    </div>
+                    <div class="column">
+                        <label for="complemento">Complemento</label>
+                        <input type="text" name="complemento" id="complemento" value="<?php print htmlspecialchars($row->complemento); ?>" placeholder="Complemento">
+                    </div>
+                </div>
 
-<!-- Linha do botão -->
-<div class="row">
-    <div class="column button-column">
-        <button type="submit">Enviar</button>
-    </div>
-</div>
+                <!-- Linha 5: Telefone, Peso, Tipo Sanguíneo -->
+                <div class="row">
+                    <div class="column">
+                        <label for="telefone">Telefone<span class="required">*</span></label>
+                        <input type="text" name="telefone" id="telefone" value="<?php print htmlspecialchars($row->telefone); ?>" placeholder="Digite o telefone (apenas números)" required>
+                    </div>
+                    <div class="column">
+                        <label for="peso">Peso (kg)<span class="required">*</span></label>
+                        <input type="text" name="peso" id="peso" value="<?php print htmlspecialchars($row->peso); ?>" min="1" placeholder="Ex: 65" required>
+                    </div>
+                    <div class="column">
+                        <label for="tipo-sanguineo">Tipo Sanguíneo<span class="required">*</span></label>
+                        <select name="ts" id="tipo-sanguineo" required>
+                            <option value="" disabled <?php echo ($row->ts == '') ? 'selected' : ''; ?>>Selecione o tipo sanguíneo</option>
+                            <option value="A+" <?php echo ($row->ts == 'A+') ? 'selected' : ''; ?>>A+</option>
+                            <option value="A-" <?php echo ($row->ts == 'A-') ? 'selected' : ''; ?>>A-</option>
+                            <option value="B+" <?php echo ($row->ts == 'B+') ? 'selected' : ''; ?>>B+</option>
+                            <option value="B-" <?php echo ($row->ts == 'B-') ? 'selected' : ''; ?>>B-</option>
+                            <option value="AB+" <?php echo ($row->ts == 'AB+') ? 'selected' : ''; ?>>AB+</option>
+                            <option value="AB-" <?php echo ($row->ts == 'AB-') ? 'selected' : ''; ?>>AB-</option>
+                            <option value="O+" <?php echo ($row->ts == 'O+') ? 'selected' : ''; ?>>O+</option>
+                            <option value="O-" <?php echo ($row->ts == 'O-') ? 'selected' : ''; ?>>O-</option>
+                            <option value="N.A" <?php echo ($row->ts == 'N.A') ? 'selected' : ''; ?>>N.A</option>
+                        </select>
+                    </div>
+                </div>
 
+                <!-- Linha 6: Data da Doação (largura total) -->
+                <div class="row">
+                    <div class="column" style="width: 100%;">
+                        <label for="data-doacao">Data da Doação<span class="required">*</span></label>
+                        <input type="date" name="datedonation" id="data-doacao" value="<?php print htmlspecialchars($row->datedonation); ?>" required style="width: 100%;">
+                    </div>
+                </div>
+
+                <!-- Botão -->
+                <div class="row">
+                    <div class="column button-column">
+                        <button type="submit">Enviar</button>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -127,7 +133,7 @@ if ($res->num_rows > 0) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Máscaras existentes
+    // Máscara para CPF
     var cpfInput = document.getElementById('cpf');
     cpfInput.addEventListener('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '')
@@ -137,24 +143,26 @@ document.addEventListener('DOMContentLoaded', function() {
             .substring(0, 14);
     });
 
+    // Máscara para Telefone
     var telefoneInput = document.getElementById('telefone');
     telefoneInput.addEventListener('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '')
-            .replace(/^(\d{2})(\d)/, '($1) $2') // Formato (xx) x
-            .replace(/(\d{5})(\d{4})$/, '$1-$2') // Formato xxxxx-xxxx
-            .substring(0, 15); // Limita a 15 caracteres
+            .replace(/^(\d{2})(\d)/, '($1) $2')
+            .replace(/(\d{5})(\d{4})$/, '$1-$2')
+            .substring(0, 15);
     });
 
+    // Máscara para CEP
     var cepInput = document.getElementById('cep');
     cepInput.addEventListener('input', function() {
         this.value = this.value.replace(/[^0-9]/g, '')
             .replace(/^(\d{5})(\d{3})$/, '$1-$2')
-            .substring(0, 10); // Limita o CEP a 10 caracteres
+            .substring(0, 10);
     });
 
     // Autocompletar CEP
     $('#cep').on('blur', function() {
-        let cep = $(this).val().replace(/\D/g, ''); // Remove caracteres não numéricos
+        let cep = $(this).val().replace(/\D/g, '');
         if (cep.length === 8) {
             $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
                 if (!data.erro) {
@@ -167,6 +175,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } else {
             alert('CEP inválido.');
+        }
+    });
+
+    // Validação do peso no envio
+    $('form').on('submit', function(e) {
+        const peso = parseFloat($('#peso').val());
+        if (peso < 50) {
+            e.preventDefault();
+            alert('Peso não pode ser inferior a 50kg.');
+            $('#peso').focus();
         }
     });
 });

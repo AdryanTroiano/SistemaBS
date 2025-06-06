@@ -41,6 +41,7 @@ $doador = $result->fetch_object();
             <tr><th>Bairro</th><td><?php echo $doador->bairro; ?></td></tr>
             <tr><th>Nascimento</th><td><?php echo (new DateTime($doador->nasc))->format('d/m/Y'); ?></td></tr>
             <tr><th>Tipo Sanguíneo</th><td><?php echo $doador->ts; ?></td></tr>
+            <tr><th>Peso</th><td><?php echo $doador->peso; ?></td></tr>
         </table>
     </div>
 

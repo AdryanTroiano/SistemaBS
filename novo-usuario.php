@@ -8,7 +8,7 @@ require_once 'auth.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title></title>
+    <title>Cadastrar Doadores</title>
 </head>
 <body>
 
@@ -18,14 +18,16 @@ require_once 'auth.php';
             <input type="hidden" name="acao" value="cadastrar">
             <div class="contentform">
                 <div class="form-container">
-                    <!-- Primeira linha de campos -->
 
+                    <!-- Primeira linha -->
                     <div class="row">
                         <div class="column">
-                        <label for="nome">Nome<span class="required">*</span></label>
-                        <input type="text" name="nome" id="nome" placeholder="Digite o nome" required>
+                            <label for="nome">Nome<span class="required">*</span></label>
+                            <input type="text" name="nome" id="nome" placeholder="Digite o nome" required>
                         </div>
-                        </div>
+                    </div>
+
+                    <!-- Segunda linha -->
                     <div class="row">
                         <div class="column">
                             <label for="cpf">CPF<span class="required">*</span></label>
@@ -44,8 +46,8 @@ require_once 'auth.php';
                             <input type="date" name="nasc" id="data-nascimento" required>
                         </div>
                     </div>
-                    
-                    <!-- Segunda linha de campos -->
+
+                    <!-- Terceira linha -->
                     <div class="row">
                         <div class="column">
                             <label for="email">E-mail<span class="required">*</span></label>
@@ -60,8 +62,8 @@ require_once 'auth.php';
                             <input type="text" name="endereco" id="endereco" placeholder="Digite o endereço" required>
                         </div>
                     </div>
-                    
-                    <!-- Terceira linha de campos -->
+
+                    <!-- Quarta linha -->
                     <div class="row">
                         <div class="column">
                             <label for="numero">Número<span class="required">*</span></label>
@@ -76,12 +78,16 @@ require_once 'auth.php';
                             <input type="text" name="complemento" id="complemento" placeholder="Complemento">
                         </div>
                     </div>
-                    
-                    <!-- Quarta linha de campos -->
+
+                    <!-- Quinta linha -->
                     <div class="row">
-                    <div class="column">
+                        <div class="column">
                             <label for="telefone">Telefone<span class="required">*</span></label>
                             <input type="text" name="telefone" id="telefone" placeholder="Digite o telefone (apenas números)" required>
+                        </div>
+                        <div class="column">
+                            <label for="peso">Peso (kg)<span class="required">*</span></label>
+                            <input type="text" name="peso" id="peso" placeholder="Ex: 65" min="1" required>
                         </div>
                         <div class="column">
                             <label for="tipo-sanguineo">Tipo Sanguíneo<span class="required">*</span></label>
@@ -98,16 +104,19 @@ require_once 'auth.php';
                                 <option value="N.A">N.A</option>
                             </select>
                         </div>
+                    </div>
+
+                    <!-- Sexta linha -->
+                    <div class="row">
                         <div class="column">
                             <label for="data-doacao">Data da Doação<span class="required">*</span></label>
                             <input type="date" name="datedonation" id="data-doacao" class="input-field" required>
                         </div>
                     </div>
-                    
-                    <!-- Última linha de campos (com Data da Doação e Botão) -->
-                        <div class="column button-column">
-                            <button type="submit">Enviar</button>
-                        </div>
+
+                    <!-- Botão -->
+                    <div class="column button-column">
+                        <button type="submit">Enviar</button>
                     </div>
 
                 </div>
@@ -120,15 +129,13 @@ require_once 'auth.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Máscaras para os campos CPF, Telefone e CEP
             $("input[name='cpf']").mask("999.999.999-99");
             $("input[name='telefone']").mask("(99) 99999-9999");
             $("input[name='cep']").mask("99999-999");
 
-            // Autocomplete de endereço pelo CEP
+            // Autocompletar endereço
             $("#cep").on("blur", function() {
-                let cep = $(this).val().replace(/\D/g, ''); // Remove caracteres não numéricos
-
+                let cep = $(this).val().replace(/\D/g, '');
                 if (cep.length === 8) {
                     $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
                         if (!data.erro) {
@@ -141,6 +148,16 @@ require_once 'auth.php';
                     });
                 } else {
                     alert("CEP inválido.");
+                }
+            });
+
+            // Validação do peso
+            $("form").on("submit", function(e) {
+                const peso = parseFloat($("#peso").val());
+                if (peso < 50) {
+                    e.preventDefault();
+                    alert("Peso não pode ser inferior a 50kg.");
+                    $("#peso").focus();
                 }
             });
         });
