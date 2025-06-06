@@ -90,7 +90,7 @@ if ($res->num_rows > 0) {
                         <input type="text" name="telefone" id="telefone" value="<?php print htmlspecialchars($row->telefone); ?>" placeholder="Digite o telefone (apenas números)" required>
                     </div>
                     <div class="column">
-                        <label for="peso">Peso (kg)<span class="required">*</span></label>
+                        <label for="peso">Peso<span class="required">*</span></label>
                         <input type="text" name="peso" id="peso" value="<?php print htmlspecialchars($row->peso); ?>" min="1" placeholder="Ex: 65" required>
                     </div>
                     <div class="column">
@@ -178,14 +178,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Validação do peso no envio
+    // Função para calcular idade
+    function calcularIdade(dataNascimento) {
+        const hoje = new Date();
+        const nascimento = new Date(dataNascimento);
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        const m = hoje.getMonth() - nascimento.getMonth();
+
+        if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+            idade--;
+        }
+        return idade;
+    }
+
+    // Validação do peso e idade no envio do formulário
     $('form').on('submit', function(e) {
         const peso = parseFloat($('#peso').val());
         if (peso < 50) {
             e.preventDefault();
             alert('Peso não pode ser inferior a 50kg.');
             $('#peso').focus();
+            return;
+        }
+
+        const dataNascimento = $('#data-nascimento').val();
+        if (!dataNascimento) {
+            e.preventDefault();
+            alert('Por favor, preencha a data de nascimento.');
+            $('#data-nascimento').focus();
+            return;
+        }
+
+        const idade = calcularIdade(dataNascimento);
+        if (idade < 16) {
+            e.preventDefault();
+            alert('Doadores menores de 16 anos não podem doar sangue.');
+            $('#data-nascimento').focus();
+            return;
         }
     });
 });
 </script>
+

@@ -128,39 +128,69 @@ require_once 'auth.php';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $("input[name='cpf']").mask("999.999.999-99");
-            $("input[name='telefone']").mask("(99) 99999-9999");
-            $("input[name='cep']").mask("99999-999");
+    $(document).ready(function() {
+        $("input[name='cpf']").mask("999.999.999-99");
+        $("input[name='telefone']").mask("(99) 99999-9999");
+        $("input[name='cep']").mask("99999-999");
 
-            // Autocompletar endereço
-            $("#cep").on("blur", function() {
-                let cep = $(this).val().replace(/\D/g, '');
-                if (cep.length === 8) {
-                    $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
-                        if (!data.erro) {
-                            $("#endereco").val(data.logradouro);
-                            $("#bairro").val(data.bairro);
-                            $("#complemento").val(data.complemento);
-                        } else {
-                            alert("CEP não encontrado.");
-                        }
-                    });
-                } else {
-                    alert("CEP inválido.");
-                }
-            });
-
-            // Validação do peso
-            $("form").on("submit", function(e) {
-                const peso = parseFloat($("#peso").val());
-                if (peso < 50) {
-                    e.preventDefault();
-                    alert("Peso não pode ser inferior a 50kg.");
-                    $("#peso").focus();
-                }
-            });
+        // Autocompletar endereço
+        $("#cep").on("blur", function() {
+            let cep = $(this).val().replace(/\D/g, '');
+            if (cep.length === 8) {
+                $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
+                    if (!data.erro) {
+                        $("#endereco").val(data.logradouro);
+                        $("#bairro").val(data.bairro);
+                        $("#complemento").val(data.complemento);
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                });
+            } else {
+                alert("CEP inválido.");
+            }
         });
-    </script>
+
+        // Função para calcular idade
+        function calcularIdade(dataNascimento) {
+            const hoje = new Date();
+            const nascimento = new Date(dataNascimento);
+            let idade = hoje.getFullYear() - nascimento.getFullYear();
+            const m = hoje.getMonth() - nascimento.getMonth();
+
+            if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+                idade--;
+            }
+            return idade;
+        }
+
+        // Validação do peso e idade no envio do formulário
+        $("form").on("submit", function(e) {
+            const peso = parseFloat($("#peso").val());
+            if (peso < 50) {
+                e.preventDefault();
+                alert("Peso não pode ser inferior a 50kg.");
+                $("#peso").focus();
+                return;
+            }
+
+            const dataNascimento = $("#data-nascimento").val();
+            if (!dataNascimento) {
+                e.preventDefault();
+                alert("Por favor, preencha a data de nascimento.");
+                $("#data-nascimento").focus();
+                return;
+            }
+
+            const idade = calcularIdade(dataNascimento);
+            if (idade < 16) {
+                e.preventDefault();
+                alert("Doadores menores de 16 anos não podem doar sangue.");
+                $("#data-nascimento").focus();
+                return;
+            }
+        });
+    });
+</script>
 </body>
 </html>
