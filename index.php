@@ -13,13 +13,16 @@
             box-sizing: border-box;
         }
 
-        /* Define o fundo da página */
         body {
             background-color: #F5F5F5;
             font-family: Arial, sans-serif;
+            transition: opacity 0.5s ease-out; /* Transição suave */
         }
 
-        /* Estilos do container */
+        body.fade-out {
+            opacity: 0;
+        }
+
         .login-container {
             display: flex;
             justify-content: center;
@@ -37,27 +40,36 @@
             text-align: center;
         }
 
-        /* Estilos do título */
+        .login-box img {
+            max-width: 120px;
+            margin-bottom: 20px;
+        }
+
         h2 {
             color: #a4161a;
             margin-bottom: 20px;
         }
 
-        /* Estilos do formulário */
         .textbox {
             margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .textbox label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
         }
 
         .textbox input {
             width: 100%;
             padding: 10px;
-            margin-top: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
         }
 
-        /* Estilo do botão */
         input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -73,7 +85,6 @@
             background-color: #8c1414;
         }
 
-        /* Responsividade para telas pequenas */
         @media screen and (max-width: 768px) {
             .login-box {
                 padding: 30px;
@@ -93,7 +104,6 @@
             }
         }
 
-        /* Responsividade para telas menores que 300px */
         @media screen and (max-width: 300px) {
             .login-box {
                 padding: 20px;
@@ -117,19 +127,49 @@
     </style>
 </head>
 <body>
+
+<!-- Container VLibras -->
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  
     <div class="login-container">
         <div class="login-box">
+            <img src="logo.png" alt="Logo da empresa">
             <h2>Login</h2>
             <form action="login.php" method="POST">
                 <div class="textbox">
-                    <input type="text" name="usuario" placeholder="Usuário" required>
+                    <label for="user">Usuário:</label>
+                    <input type="text" id="user" name="usuario" placeholder="Digite seu nome de usuário" required>
                 </div>
                 <div class="textbox">
-                    <input type="password" name="senha" placeholder="Senha" required>
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
                 </div>
                 <input type="submit" value="Entrar">
             </form>
         </div>
     </div>
+
+    <script>
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); 
+            document.body.classList.add("fade-out");
+
+            setTimeout(() => {
+                form.submit(); 
+            }, 500); 
+        });
+    </script>
+
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+
 </body>
 </html>

@@ -13,11 +13,19 @@ if (!isset($_SESSION['usuario'])) {
   <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="fadein.js" defer></script>
   <title>SCBST</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+  <!-- Container VLibras -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
 
 <header>
   <nav>
@@ -100,6 +108,14 @@ if (!isset($_SESSION['usuario'])) {
         </ul>
       </div>
     </div>
+
+    <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  
   </nav>
 </header>
 
@@ -162,29 +178,17 @@ if (!isset($_SESSION['usuario'])) {
       </div>
     </div>
   </div>
+
 </footer>
 
 <!-- Scripts -->
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const abrirMenu = document.getElementById('abrirMenu');
-    const fecharMenu = document.getElementById('fecharMenu');
-    const menuFullscreen = document.getElementById('menuFullscreen');
-
-    abrirMenu.addEventListener('click', function () {
-      menuFullscreen.classList.add('ativo');
-      abrirMenu.classList.add('esconder');
-    });
-
-    fecharMenu.addEventListener('click', function () {
-      menuFullscreen.classList.remove('ativo');
-      abrirMenu.classList.remove('esconder');
-    });
-  });
-</script>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 
 </body>
 </html>
