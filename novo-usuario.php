@@ -86,13 +86,13 @@ require_once 'auth.php';
                             <input type="text" name="telefone" id="telefone" placeholder="Digite o telefone (apenas números)" required>
                         </div>
                         <div class="column">
-                            <label for="peso">Peso (kg)<span class="required">*</span></label>
+                            <label for="peso">Peso<span class="required">*</span></label>
                             <input type="text" name="peso" id="peso" placeholder="Ex: 65" min="1" required>
                         </div>
                         <div class="column">
                             <label for="tipo-sanguineo">Tipo Sanguíneo<span class="required">*</span></label>
                             <select name="ts" id="tipo-sanguineo" required>
-                                <option value="" disabled selected>Selecione o tipo sanguíneo:</option>
+                                <option value="" disabled selected>Selecione o tipo sanguíneo</option>
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
                                 <option value="B+">B+</option>
