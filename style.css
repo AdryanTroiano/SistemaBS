@@ -103,7 +103,6 @@ nav {
         padding: 10px;
         color: white;
         font-size: 18px;
-        text-transform: uppercase;
         text-decoration: none;
         transition: background-color 0.3s ease; /* Adicionando transição suave para o hover */
     }
@@ -280,7 +279,6 @@ nav {
     margin-right: 20px;
     color: #ffffff;
     text-decoration: none;
-    text-transform: uppercase;
     font-weight: 600;
     font-size: 20px;
     transition: color 0.3s, transform 0.3s;
