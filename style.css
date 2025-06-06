@@ -288,7 +288,7 @@ nav {
 
 /* Efeito de hover nos links da navbar */
 .nav-link:hover {
-    color: #090909;
+    color: #FFEE4B;
     transform: translateY(5px); /* Move o link para baixo quando o mouse passa por cima */
 }
 
