@@ -102,6 +102,7 @@ if ($res->num_rows > 0) {
             <option value="AB-" <?php echo ($row->ts == 'AB-') ? 'selected' : ''; ?>>AB-</option>
             <option value="O+" <?php echo ($row->ts == 'O+') ? 'selected' : ''; ?>>O+</option>
             <option value="O-" <?php echo ($row->ts == 'O-') ? 'selected' : ''; ?>>O-</option>
+            <option value="N.A" <?php echo ($row->ts == 'N.A') ? 'selected' : ''; ?>>N.A</option>
         </select>
     </div>
     <div class="column">
