@@ -32,10 +32,10 @@ if ($res->num_rows > 0) {
 
                 <!-- Linha 2: CPF, Sexo, Data de Nascimento -->
                 <div class="row">
-                    <div class="column">
-                        <label for="cpf">CPF<span class="required">*</span></label>
-                        <input type="text" name="cpf" id="cpf" value="<?php print htmlspecialchars($row->cpf); ?>" placeholder="Digite o CPF (apenas números)" required>
-                    </div>
+                <div class="column">
+                <label for="cpf">CPF<span class="required">*</span></label>
+                <input type="text" name="cpf" id="cpf" value="<?php print htmlspecialchars($row->cpf); ?>" placeholder="Digite o CPF (apenas números)" required readonly>
+                </div>
                     <div class="column">
                         <label for="sexo">Sexo<span class="required">*</span></label>
                         <select name="sexo" id="sexo" required>
