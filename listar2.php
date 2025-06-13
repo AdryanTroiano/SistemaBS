@@ -1,8 +1,5 @@
-
 <?php
-
 require_once 'auth.php';
-
 include('config.php');
 
 if (!isset($_GET['id']) || empty($_GET['id'])) {
@@ -30,7 +27,6 @@ $doador = $result->fetch_object();
             <tr><th>ID</th><td><?php echo $doador->id; ?></td></tr>
             <tr><th>Nome</th><td><?php echo htmlspecialchars($doador->nome); ?></td></tr>
             <tr><th>Sexo</th><td><?php echo $doador->sexo; ?></td></tr>
-            <!-- CPF com ocultação -->
             <tr><th>CPF</th><td><input type="password" id="cpfField" value="<?php echo htmlspecialchars($doador->cpf); ?>" disabled></td></tr>
             <tr><th>Telefone</th><td><?php echo $doador->telefone; ?></td></tr>
             <tr><th>Email</th><td><?php echo $doador->email; ?></td></tr>
@@ -45,7 +41,6 @@ $doador = $result->fetch_object();
         </table>
     </div>
 
-    <!-- Botões de ações -->
     <div class="doador-detalhes-voltar">
         <a href="?page=listar" class="doador-detalhes-btn">
             <i class="fas fa-arrow-left"></i> Voltar
@@ -63,7 +58,8 @@ $doador = $result->fetch_object();
             <i class="fas fa-print"></i> Imprimir
         </button>
 
-        <button class="doador-detalhes-btn btn-exibir-cpf" onclick="toggleCpfVisibility()">
+        <!-- Correção aqui -->
+        <button class="doador-detalhes-btn btn-exibir-cpf" onclick="toggleCpfVisibility(this)">
             <i class="fas fa-eye"></i> Mostrar CPF
         </button>
     </div>
@@ -73,27 +69,26 @@ $doador = $result->fetch_object();
 function printTable() {
     var originalContent = document.body.innerHTML;
     var printContent = document.getElementById('printTable').outerHTML;
-    
+
     document.body.innerHTML = printContent;
     window.print();
-
-    // Após imprimir, volta ao conteúdo original da página
     document.body.innerHTML = originalContent;
 }
 
-function toggleCpfVisibility() {
+function toggleCpfVisibility(buttonElement) {
     var cpfField = document.getElementById("cpfField");
-    var button = document.querySelector(".doador-detalhes-btn i");
-    
-    // Alternar entre password e text
+    var icon = buttonElement.querySelector("i");
+
     if (cpfField.type === "password") {
-        cpfField.type = "text"; // Torna o CPF visível
-        button.classList.remove("fa-eye");
-        button.classList.add("fa-eye-slash");
+        cpfField.type = "text";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+        buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i> Esconder CPF';
     } else {
-        cpfField.type = "password"; // Torna o CPF oculto
-        button.classList.remove("fa-eye-slash");
-        button.classList.add("fa-eye");
+        cpfField.type = "password";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+        buttonElement.innerHTML = '<i class="fas fa-eye"></i> Mostrar CPF';
     }
 }
 </script>
@@ -120,14 +115,14 @@ function toggleCpfVisibility() {
 
 .doador-detalhes-tabela-container {
     width: 100%;
-    overflow: hidden; /* Evita rolagem lateral */
+    overflow: hidden;
 }
 
 .doador-detalhes-tabela {
     width: 100%;
     border-collapse: collapse;
     font-size: 14px;
-    table-layout: fixed; /* Tabela com layout fixo para prevenir que as células saiam da linha */
+    table-layout: fixed;
 }
 
 .doador-detalhes-tabela th,
@@ -136,8 +131,8 @@ function toggleCpfVisibility() {
     border: 1px solid #ccc;
     text-align: left;
     vertical-align: middle;
-    word-wrap: break-word; /* Permite que as palavras quebrem a linha */
-    overflow-wrap: break-word; /* Garante a quebra de linha em caso de texto muito longo */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .doador-detalhes-tabela th {
@@ -152,7 +147,7 @@ function toggleCpfVisibility() {
 }
 
 .doador-detalhes-btn {
-    background-color: #007BFF; /* Cor padrão (azul) para os botões */
+    background-color: #007BFF;
     cursor: pointer;
     color: white;
     padding: 10px 25px;
@@ -164,10 +159,10 @@ function toggleCpfVisibility() {
     margin: 0 5px;
     display: inline-flex;
     align-items: center;
-    height: 45px; /* Define a altura fixa dos botões */
-    min-width: 150px; /* Define uma largura mínima */
-    justify-content: center; /* Centraliza o texto e ícones */
-    line-height: 1; /* Ajusta o alinhamento vertical do texto */
+    height: 45px;
+    min-width: 150px;
+    justify-content: center;
+    line-height: 1;
 }
 
 .doador-detalhes-btn:hover {
@@ -176,24 +171,24 @@ function toggleCpfVisibility() {
 
 .btn-exibir-cpf,
 .btn-excluir {
-    background-color: #dc3545; /* vermelho Bootstrap */
+    background-color: #dc3545;
 }
 
 .btn-exibir-cpf:hover,
 .btn-excluir:hover {
-    background-color: #a71d2a; /* tom mais escuro no hover */
+    background-color: #a71d2a;
 }
 
 .doador-detalhes-btn.imprimir-btn {
-    background-color: #28a745; /* verde para o botão imprimir */
+    background-color: #28a745;
 }
 
 .doador-detalhes-btn.imprimir-btn:hover {
-    background-color: #218838; /* tom mais escuro de verde no hover */
+    background-color: #218838;
 }
 
 .doador-detalhes-btn i {
-    margin-right: 8px; /* Adiciona espaço entre o ícone e o texto */
+    margin-right: 8px;
 }
 
 .doador-detalhes-erro {
@@ -203,15 +198,7 @@ function toggleCpfVisibility() {
     margin-top: 30px;
 }
 
-.btn-excluir {
-    background-color: #dc3545; /* vermelho Bootstrap */
-}
-
-.btn-excluir:hover {
-    background-color: #a71d2a; /* tom mais escuro no hover */
-}
-
-/* Responsividade */
+/* Responsivo */
 @media (max-width: 600px) {
     .doador-detalhes-titulo {
         font-size: 22px;
@@ -233,7 +220,6 @@ function toggleCpfVisibility() {
 }
 
 @media (max-width: 1000px) {
-    /* Fazendo os botões ficarem empilhados, um abaixo do outro */
     .doador-detalhes-voltar {
         display: flex;
         flex-direction: column;
@@ -241,8 +227,8 @@ function toggleCpfVisibility() {
     }
 
     .doador-detalhes-btn {
-        width: 100%; /* Faz os botões ocuparem toda a largura disponível */
-        margin-bottom: 10px; /* Espaçamento entre os botões */
+        width: 100%;
+        margin-bottom: 10px;
         text-align: center;
         justify-content: center;
     }
