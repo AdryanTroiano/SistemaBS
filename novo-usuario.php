@@ -19,7 +19,6 @@ require_once 'auth.php';
             <div class="contentform">
                 <div class="form-container">
 
-                    <!-- Primeira linha -->
                     <div class="row">
                         <div class="column">
                             <label for="nome">Nome<span class="required">*</span></label>
@@ -27,7 +26,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Segunda linha -->
                     <div class="row">
                         <div class="column">
                             <label for="cpf">CPF<span class="required">*</span></label>
@@ -47,7 +45,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Terceira linha -->
                     <div class="row">
                         <div class="column">
                             <label for="email">E-mail<span class="required">*</span></label>
@@ -63,7 +60,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Quarta linha -->
                     <div class="row">
                         <div class="column">
                             <label for="numero">Número<span class="required">*</span></label>
@@ -79,7 +75,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Quinta linha -->
                     <div class="row">
                         <div class="column">
                             <label for="telefone">Telefone<span class="required">*</span></label>
@@ -106,7 +101,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Sexta linha -->
                     <div class="row">
                         <div class="column">
                             <label for="data-doacao">Data da Doação<span class="required">*</span></label>
@@ -114,7 +108,6 @@ require_once 'auth.php';
                         </div>
                     </div>
 
-                    <!-- Botão -->
                     <div class="column button-column">
                         <button type="submit">Enviar</button>
                     </div>
@@ -133,7 +126,6 @@ require_once 'auth.php';
         $("input[name='telefone']").mask("(99) 99999-9999");
         $("input[name='cep']").mask("99999-999");
 
-        // Autocompletar endereço
         $("#cep").on("blur", function() {
             let cep = $(this).val().replace(/\D/g, '');
             if (cep.length === 8) {
@@ -151,7 +143,6 @@ require_once 'auth.php';
             }
         });
 
-        // Função para calcular idade
         function calcularIdade(dataNascimento) {
             const hoje = new Date();
             const nascimento = new Date(dataNascimento);
@@ -164,8 +155,38 @@ require_once 'auth.php';
             return idade;
         }
 
-        // Validação do peso e idade no envio do formulário
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+
+            let soma = 0;
+            for (let i = 0; i < 9; i++) {
+                soma += parseInt(cpf.charAt(i)) * (10 - i);
+            }
+
+            let resto = 11 - (soma % 11);
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.charAt(9))) return false;
+
+            soma = 0;
+            for (let i = 0; i < 10; i++) {
+                soma += parseInt(cpf.charAt(i)) * (11 - i);
+            }
+
+            resto = 11 - (soma % 11);
+            if (resto === 10 || resto === 11) resto = 0;
+            return resto === parseInt(cpf.charAt(10));
+        }
+
         $("form").on("submit", function(e) {
+            const cpf = $("#cpf").val();
+            if (!validarCPF(cpf)) {
+                e.preventDefault();
+                alert("CPF inválido. Verifique e tente novamente.");
+                $("#cpf").focus();
+                return;
+            }
+
             const peso = parseFloat($("#peso").val());
             if (peso < 50) {
                 e.preventDefault();
@@ -191,6 +212,6 @@ require_once 'auth.php';
             }
         });
     });
-</script>
+    </script>
 </body>
 </html>
