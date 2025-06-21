@@ -2,8 +2,9 @@
 
 <?php
 require_once 'auth.php';
-// Inicia a sessão
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Inclui a conexão com o banco de dados
 include('config.php');

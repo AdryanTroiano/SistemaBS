@@ -6,7 +6,12 @@ body, html {
     background-color: #F5F5F5;
     height: 100%;
     font-family: Arial, sans-serif;
+    transition: opacity 0.5s ease-out;
 }
+
+body.fade-out {
+    opacity: 0;
+  }
 
 *,
 *::before,
@@ -275,7 +280,6 @@ nav {
     margin-right: 20px;
     color: #ffffff;
     text-decoration: none;
-    text-transform: uppercase;
     font-weight: 600;
     font-size: 20px;
     transition: color 0.3s, transform 0.3s;

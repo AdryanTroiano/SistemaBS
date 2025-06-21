@@ -33,14 +33,18 @@ try {
     body {
       font-family: Arial, sans-serif;
       background-color: #F5F5F5;
-
       display: flex;
       justify-content: center;
       align-items: center;
-
       height: 100vh;
       margin: 0;
+      transition: opacity 0.5s ease-out;
     }
+
+    body.fade-out {
+      opacity: 0;
+    }
+
     .container {
       max-width: 400px;
       background: white;
@@ -48,16 +52,19 @@ try {
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
     h2 {
       color: #a4161a;
       margin-bottom: 20px;
       text-align: center;
     }
+
     label {
       font-weight: bold;
       display: block;
       margin-top: 15px;
     }
+
     input[type="text"],
     input[type="email"],
     input[type="password"] {
@@ -68,6 +75,7 @@ try {
       border-radius: 4px;
       font-size: 16px;
     }
+
     input[type="submit"] {
       margin-top: 25px;
       width: 100%;
@@ -79,12 +87,29 @@ try {
       cursor: pointer;
       border-radius: 4px;
     }
+
     input[type="submit"]:hover {
       background-color: #8c1414;
+    }
+
+    #erroSenha {
+      color: red;
+      display: none;
+      text-align: center;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
+
+<!-- Container VLibras -->
+<div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
   <div class="container">
     <h2>Editar Usuário</h2>
     <form action="processa_edicao.php" method="POST" id="formEdicao">
@@ -105,21 +130,40 @@ try {
       <input type="submit" value="Salvar Alterações" />
     </form>
 
-    <p id="erroSenha" style="color: red; display: none;">As senhas não coincidem. Tente novamente.</p>
+    <p id="erroSenha">As senhas não coincidem. Tente novamente.</p>
   </div>
 
   <script>
-    document.getElementById("formEdicao").addEventListener("submit", function(event) {
-      var senha = document.getElementById("senha").value;
-      var confirmarSenha = document.getElementById("confirmar_senha").value;
+    const form = document.getElementById("formEdicao");
 
+    form.addEventListener("submit", function(event) {
+      const senha = document.getElementById("senha").value;
+      const confirmarSenha = document.getElementById("confirmar_senha").value;
+      const erro = document.getElementById("erroSenha");
+
+      // Verifica senha
       if (senha || confirmarSenha) {
         if (senha !== confirmarSenha) {
           event.preventDefault();
-          document.getElementById("erroSenha").style.display = "block";
+          erro.style.display = "block";
+          return;
         }
       }
+
+      // Se tudo certo, aplica transição antes de enviar
+      event.preventDefault();
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        form.submit();
+      }, 500); // Tempo da animação
     });
   </script>
+
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+  
 </body>
 </html>

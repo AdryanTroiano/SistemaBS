@@ -113,7 +113,7 @@ if ($res->num_rows > 0) {
 <!-- Linha do botão -->
 <div class="row">
     <div class="column button-column">
-        <button type="submit">Enviar</button>
+        <button type="submit">Salvar</button>
     </div>
 </div>
 
