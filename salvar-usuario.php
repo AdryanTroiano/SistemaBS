@@ -17,10 +17,11 @@ switch ($_REQUEST["acao"]) {
         $ts = $_POST["ts"]; // Novo campo tipo sanguíneo
         $datedonation = $_POST["datedonation"]; // Novo campo para data de doação
         $sexo = $_POST["sexo"]; // Novo campo para sexo (M ou F)
+        $peso = $_POST["peso"];
 
         // Monta a consulta SQL para inserir os dados, incluindo o campo sexo
-        $sql = "INSERT INTO cadastrobs (nome, cpf, telefone, email, endereco, numero, cep, complemento, bairro, nasc, ts, datedonation, sexo) 
-                VALUES ('{$nome}', '{$cpf}', '{$telefone}', '{$email}', '{$endereco}', '{$numero}', '{$cep}', '{$complemento}', '{$bairro}', '{$nasc}', '{$ts}', '{$datedonation}', '{$sexo}')";
+        $sql = "INSERT INTO cadastrobs (nome, cpf, telefone, email, endereco, numero, cep, complemento, bairro, nasc, ts, datedonation, sexo, peso) 
+                VALUES ('{$nome}', '{$cpf}', '{$telefone}', '{$email}', '{$endereco}', '{$numero}', '{$cep}', '{$complemento}', '{$bairro}', '{$nasc}', '{$ts}', '{$datedonation}', '{$sexo}', '{$peso}')";
 
         // Executa a consulta e verifica se houve erro
         if ($conn->query($sql) === TRUE) {
@@ -49,6 +50,7 @@ switch ($_REQUEST["acao"]) {
         $ts = $_POST["ts"]; // Novo campo tipo sanguíneo
         $datedonation = $_POST["datedonation"]; // Novo campo para data de doação
         $sexo = $_POST["sexo"]; // Novo campo para sexo (M ou F)
+        $peso = $_POST["peso"];
 
         // Monta a consulta SQL para atualizar os dados, incluindo o campo sexo
         $sql = "UPDATE cadastrobs SET
@@ -64,7 +66,8 @@ switch ($_REQUEST["acao"]) {
             nasc='{$nasc}',
             ts='{$ts}',
             datedonation='{$datedonation}',
-            sexo='{$sexo}' 
+            sexo='{$sexo}',
+            peso='{$peso}'
             WHERE id={$id}"; // Adiciona a condição WHERE para identificar o registro
 
         // Executa a consulta e verifica se houve erro

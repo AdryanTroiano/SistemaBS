@@ -103,7 +103,6 @@ nav {
         padding: 10px;
         color: white;
         font-size: 18px;
-        text-transform: uppercase;
         text-decoration: none;
         transition: background-color 0.3s ease; /* Adicionando transição suave para o hover */
     }
@@ -287,7 +286,7 @@ nav {
 
 /* Efeito de hover nos links da navbar */
 .nav-link:hover {
-    color: #090909;
+    color: #FFEE4B;
     transform: translateY(5px); /* Move o link para baixo quando o mouse passa por cima */
 }
 

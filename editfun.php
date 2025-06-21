@@ -28,7 +28,9 @@ try {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styleeditfun.css">
   <title>Editar Usuário</title>
+<<<<<<< HEAD
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -99,6 +101,8 @@ try {
       margin-top: 10px;
     }
   </style>
+=======
+>>>>>>> a1b59b3af644ad65c8bfcb99c5ed4c911d1ea5dd
 </head>
 <body>
 

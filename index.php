@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<<<<<<< HEAD
     <title>Login</title>
     <style>
         /* Reseta o estilo padrão */
@@ -125,6 +126,10 @@
             }
         }
     </style>
+=======
+    <link rel="stylesheet" href="stylelogin.css">
+    <title>Login</title>
+>>>>>>> a1b59b3af644ad65c8bfcb99c5ed4c911d1ea5dd
 </head>
 <body>
 
