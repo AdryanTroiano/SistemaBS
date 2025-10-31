@@ -140,7 +140,7 @@
   
     <div class="login-container">
         <div class="login-box">
-            <img src="logo.png" alt="Logo da empresa">
+            <img src="logo-legacy.png" alt="Logo da empresa">
             <h2>Login</h2>
             <form action="login.php" method="POST">
                 <div class="textbox">

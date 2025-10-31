@@ -35,10 +35,14 @@ nav {
     position: relative; /* Alterei para 'relative' para facilitar a sobreposição do menu */
 }
 
-/* Ajustes do logo */
 .logo {
-    width: 175px;
-    margin-left: 20vh;
+    width: auto;
+    height: 80px; /* ou o valor que quiser pro header */
+    margin-left: 5vw;
+}
+nav {
+    height: 175px; /* força altura fixa no header */
+    align-items: center;
 }
 
 @media screen and (max-width: 1080px)  {
