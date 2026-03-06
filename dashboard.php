@@ -43,7 +43,7 @@ if ($cadastrosExistem) {
                 $alerta = '';
                 $mensagem = '';
 
-                if ($quantidade < 8) {
+                if ($quantidade < 1000) {
                     $alerta = 'alert'; // Classe de alerta se o estoque for baixo
                     $mensagem = '<p class="warning">Atenção: Estoque baixo!</p>';
                 } else {
@@ -53,18 +53,119 @@ if ($cadastrosExistem) {
 
                 echo "<div class='blood-type $alerta' id='blood-type-$tipo'>";
                 echo "<h3>Tipo $tipo</h3>";
-                echo "<p>$quantidade bolsas</p>";
+                echo "<p>$quantidade MLS</p>";
                 echo $mensagem;
                 echo "</div>";
             }
             ?>
         </div>
-        <a id="linkdash" href="?page=editestoque">
-    <button type="button" id="enviar2">Atualizar Estoque</button>
-</a>       
 
     <?php endif; ?>
 </div>
+
+<?php
+
+$filtros = [];
+
+if(isset($_GET['data']) && $_GET['data'] != ""){
+    $data = $_GET['data'];
+    $filtros[] = "DATE(data_hora) = '$data'";
+}
+
+if(isset($_GET['mes']) && $_GET['mes'] != ""){
+    $mes = $_GET['mes'];
+    $filtros[] = "MONTH(data_hora) = '$mes'";
+}
+
+if(isset($_GET['ano']) && $_GET['ano'] != ""){
+    $ano = $_GET['ano'];
+    $filtros[] = "YEAR(data_hora) = '$ano'";
+}
+
+$filtroSQL = "";
+
+if(count($filtros) > 0){
+    $filtroSQL = "WHERE " . implode(" AND ", $filtros);
+}
+
+$sqlLogs = "SELECT * FROM logs_estoque $filtroSQL ORDER BY data_hora DESC";
+$resultLogs = $conn->query($sqlLogs);
+
+?>
+
+<h2 style="margin-top:40px;">Movimentações</h2>
+
+<form method="GET" style="margin-bottom:20px;">
+<input type="hidden" name="page" value="dashboard">
+
+<label>Data:</label>
+<input type="date" name="data">
+
+<label>Mês:</label>
+<select name="mes">
+
+<option value="">Todos</option>
+<option value="1">Janeiro</option>
+<option value="2">Fevereiro</option>
+<option value="3">Março</option>
+<option value="4">Abril</option>
+<option value="5">Maio</option>
+<option value="6">Junho</option>
+<option value="7">Julho</option>
+<option value="8">Agosto</option>
+<option value="9">Setembro</option>
+<option value="10">Outubro</option>
+<option value="11">Novembro</option>
+<option value="12">Dezembro</option>
+
+</select>
+
+<label>Ano:</label>
+<input type="text" name="ano" placeholder="2026">
+
+<button type="submit">Filtrar</button>
+
+</form>
+
+
+<table border="1" width="100%" style="background:white;">
+
+<tr>
+
+<th>Funcionário</th>
+<th>Ação</th>
+<th>Tipo Sanguíneo</th>
+<th>Quantidade</th>
+<th>Data/Hora</th>
+<th>IP</th>
+
+</tr>
+
+<?php
+
+while($log = $resultLogs->fetch_assoc()){
+
+?>
+
+<tr>
+
+<td><?php echo $log['funcionario']; ?></td>
+
+<td><?php echo $log['acao']; ?></td>
+
+<td><?php echo $log['tipo_sangue']; ?></td>
+
+<td><?php echo $log['quantidade']; ?> ml</td>
+
+<td><?php echo date('d/m/Y H:i', strtotime($log['data_hora'])); ?></td>
+
+<td><?php echo $log['ip']; ?></td>
+
+</tr>
+
+<?php } ?>
+
+</table>
 
 <style>
 .blood-stock {
@@ -154,6 +255,38 @@ th {
     }
 }
 
+/* ===== FILTROS ===== */
+
+form label{
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+form input,
+form select{
+    padding: 6px 8px;
+    margin-right: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button{
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #c62828;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+form button:hover{
+    background-color: #a61d1d;
+}
+
+
+
+
 
 
 
@@ -181,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function() {
             data: {
                 labels: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
                 datasets: [{
-                    label: 'Bolsas de Sangue',
+                    label: 'Mls de Sangue',
                     data: [], // Dados inicialmente vazios
                     backgroundColor: [
                         'rgba(255, 99, 132, 1)',   // A+

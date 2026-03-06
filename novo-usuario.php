@@ -100,12 +100,6 @@ require_once 'auth.php';
                             </select>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="column">
-                            <label for="data-doacao">Data da Doação<span class="required">*</span></label>
-                            <input type="date" name="datedonation" id="data-doacao" class="input-field" required>
-                        </div>
                     </div>
 
                     <div class="column button-column">

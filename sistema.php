@@ -29,6 +29,7 @@ if (!isset($_SESSION['usuario'])) {
 
 <header>
   <nav>
+
     <a class="navbar-brand" href="?page=dashboard">
       <img class="logo" src="logo.png" alt="Logo">
     </a>
@@ -43,79 +44,112 @@ if (!isset($_SESSION['usuario'])) {
     <!-- Menu fullscreen -->
     <div id="menuFullscreen" class="menu-fullscreen">
       <button id="fecharMenu" class="fechar">[ × ]</button>
+
       <a href="?page=dashboard" class="icone-home">
         <i class="fas fa-home"></i>
       </a>
+
       <ul class="linkshamb">
         <h2 class="menuhamb">Menu</h2>
         <li><a href="?page=info">Informações</a></li>
         <hr class="espacamentomenus">
+
         <li><a href="?page=help">Ajuda</a></li>
         <hr class="espacamentomenus">
 
         <h2 class="menuhamb">Menu Doador</h2>
         <li><a href="?page=novo">Cadastrar Doadores</a></li>
         <hr class="espacamentomenus">
+
         <li><a href="?page=listar">Listar Doadores</a></li>
         <hr class="espacamentomenus">
+
         <h2 class="menuhamb">Usuários</h2>
-        <h2 class="menuhamb"></h2>
+
         <?php if (isAdmin()): ?>
-            <li><a href="cadastrousers.php">Cadastrar Usuário</a></li>
-            <hr class="espacamentomenus">
-          <?php endif; ?>
-          <li><a href="editfun.php?id=<?php echo $_SESSION['usuario_id']; ?>">Editar Cadastro</a></li>
-          <hr class="espacamentomenus">
-          <li><a href="logout.php">Encerrar sessão</a></li>
-          <hr class="espacamentomenus">
-          
-          
+        <li><a href="cadastrousers.php">Cadastrar Usuário</a></li>
+        <hr class="espacamentomenus">
+        <?php endif; ?>
+
+        <li><a href="editfun.php?id=<?php echo $_SESSION['usuario_id']; ?>">Editar Cadastro</a></li>
+        <hr class="espacamentomenus">
+
+        <li><a href="logout.php">Encerrar sessão</a></li>
+        <hr class="espacamentomenus">
 
       </ul>
     </div>
 
-    <!-- Menu principal -->
+
+    <!-- MENU PRINCIPAL -->
     <div class="navbar-nav">
-      <a class="nav-link" href="?page=info">
-        <ion-icon class="icones" name="information-circle-outline"></ion-icon> Informações
-      </a>
 
       <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button">
+        <a class="nav-link dropdown-toggle" href="#">
           <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doador
         </a>
+
         <ul class="dropdown-menu">
           <li><a class="dropdown-item" href="?page=novo">Cadastrar Doadores</a></li>
           <li><a class="dropdown-item" href="?page=listar">Listar Doadores</a></li>
         </ul>
       </div>
 
-      <a class="nav-link" href="?page=help">
-        <ion-icon name="help-circle-outline"></ion-icon> <span>Ajuda</span>
-      </a>
 
-      <!-- Menu de usuário -->
       <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" role="button">
-          <ion-icon class="icones" name="person-circle-outline"></ion-icon> <?php echo htmlspecialchars($_SESSION['usuario'] ?? ''); ?>
+        <a class="nav-link dropdown-toggle" href="#">
+          <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doações
         </a>
+
         <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="?page=cadastdoacao">Cadastrar Doação</a></li>
+          <li><a class="dropdown-item" href="?page=viewdoacao">Listar Doações</a></li>
+        </ul>
+      </div>
+
+
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#">
+          <ion-icon class="icones" name="list-circle-outline"></ion-icon> Retiradas
+        </a>
+
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="?page=cadastretirada">Cadastrar Retirada</a></li>
+          <li><a class="dropdown-item" href="?page=viewretirada">Listar Retiradas</a></li>
+        </ul>
+      </div>
+
+
+      <!-- MENU USUÁRIO -->
+      <div class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#">
+          <ion-icon class="icones" name="person-circle-outline"></ion-icon>
+          <?php echo htmlspecialchars($_SESSION['usuario'] ?? ''); ?>
+        </a>
+
+        <ul class="dropdown-menu">
+
           <?php if (isAdmin()): ?>
-            <li><a class="dropdown-item" href="cadastrousers.php">Cadastrar Usuário</a></li>
+          <li><a class="dropdown-item" href="cadastrousers.php">Cadastrar Usuário</a></li>
           <?php endif; ?>
+
           <li><a class="dropdown-item" href="editfun.php?id=<?php echo $_SESSION['usuario_id']; ?>">Editar Cadastro</a></li>
           <li><a class="dropdown-item" href="logout.php">Encerrar sessão</a></li>
+
         </ul>
+      </div>
+
+    </div>
+
+
+    <!-- VLibras -->
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
       </div>
     </div>
 
-    <div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
-    </div>
-  </div>
-  
   </nav>
 </header>
 
@@ -131,6 +165,10 @@ if (!isset($_SESSION['usuario'])) {
 
       switch ($page) {
         case "novo": include("novo-usuario.php"); break;
+        case "cadastdoacao": include("cadastrar-doacao.php"); break;
+        case "cadastretirada": include("retirada.php"); break;
+        case "viewretirada": include("listar-retiradas.php"); break;
+        case "viewdoacao": include("listar-doacoes.php"); break;
         case "listar": include("listar-usuarios.php"); break;
         case "salvar": include("salvar-usuario.php"); break;
         case "editar": include("editar-usuario.php"); break;
@@ -149,7 +187,7 @@ if (!isset($_SESSION['usuario'])) {
 <footer>
   <div class="container">
     <div class="footer-content">
-      <p>&copy; 2024 Banco de Sangue de Taquaritinga.<br>Todos os direitos reservados</p>
+      <p>&copy; <span id="anoAtual"></span> Banco de Sangue de Taquaritinga.<br>Todos os direitos reservados</p>
 
       <div class="footer-address">
         <p><strong>Navegação:</strong></p>
@@ -189,6 +227,15 @@ if (!isset($_SESSION['usuario'])) {
   <script>
     new window.VLibras.Widget('https://vlibras.gov.br/app');
   </script>
+
+  <script>
+  // Pega o elemento
+  const anoElemento = document.getElementById('anoAtual');
+  // Pega o ano atual
+  const ano = new Date().getFullYear();
+  // Insere no HTML
+  anoElemento.textContent = ano;
+</script>
 
 </body>
 </html>

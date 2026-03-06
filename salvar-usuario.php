@@ -1,9 +1,12 @@
 <?php
 
-// Inicia a lógica de controle baseado na ação solicitada
 switch ($_REQUEST["acao"]) {
+
+    // ==========================
+    // CADASTRAR DOADOR
+    // ==========================
     case 'cadastrar':
-        // Captura os dados do formulário para cadastro, incluindo o novo campo "sexo"
+
         $nome = $_POST["nome"];
         $cpf = $_POST["cpf"];
         $telefone = $_POST["telefone"];
@@ -14,29 +17,164 @@ switch ($_REQUEST["acao"]) {
         $complemento = $_POST["complemento"];
         $bairro = $_POST["bairro"];
         $nasc = $_POST["nasc"];
-        $ts = $_POST["ts"]; // Novo campo tipo sanguíneo
-        $datedonation = $_POST["datedonation"]; // Novo campo para data de doação
-        $sexo = $_POST["sexo"]; // Novo campo para sexo (M ou F)
+        $ts = $_POST["ts"];
+        $datedonation = $_POST["datedonation"];
+        $sexo = $_POST["sexo"];
         $peso = $_POST["peso"];
 
-        // Monta a consulta SQL para inserir os dados, incluindo o campo sexo
-        $sql = "INSERT INTO cadastrobs (nome, cpf, telefone, email, endereco, numero, cep, complemento, bairro, nasc, ts, datedonation, sexo, peso) 
-                VALUES ('{$nome}', '{$cpf}', '{$telefone}', '{$email}', '{$endereco}', '{$numero}', '{$cep}', '{$complemento}', '{$bairro}', '{$nasc}', '{$ts}', '{$datedonation}', '{$sexo}', '{$peso}')";
+        $sql = "INSERT INTO cadastrobs 
+                (nome, cpf, telefone, email, endereco, numero, cep, complemento, bairro, nasc, ts, datedonation, sexo, peso) 
+                VALUES 
+                ('{$nome}', '{$cpf}', '{$telefone}', '{$email}', '{$endereco}', '{$numero}', '{$cep}', '{$complemento}', '{$bairro}', '{$nasc}', '{$ts}', '{$datedonation}', '{$sexo}', '{$peso}')";
 
-        // Executa a consulta e verifica se houve erro
         if ($conn->query($sql) === TRUE) {
-            // Se o cadastro foi bem-sucedido, exibe uma mensagem de sucesso e redireciona
             echo "<script>alert('Cadastro realizado com sucesso!'); window.location.href='?page=listar';</script>";
         } else {
-            // Se houve erro, exibe uma mensagem de erro e redireciona
             echo "<script>alert('Erro: " . $conn->error . "'); window.location.href='?page=home';</script>";
         }
         break;
 
+
+    // ==========================
+    // CADASTRAR DOAÇÃO
+    // ==========================
+    case 'cadastrar_doacao':
+
+    $doador_id = $_POST["doador_id"];
+    $ubs_id = $_POST["ubs_id"];
+    $data_doacao = $_POST["data_doacao"];
+    $quantidade_ml = $_POST["quantidade_ml"];
+    $tipo_doacao = $_POST["tipo_doacao"];
+
+    // buscar tipo sanguineo
+    $buscarTS = "SELECT ts FROM cadastrobs WHERE id = '{$doador_id}'";
+    $resultadoTS = $conn->query($buscarTS);
+    $dadosTS = $resultadoTS->fetch_assoc();
+    $tipo_sanguineo = $dadosTS['ts'];
+
+    // registrar doacao
+    $sql = "INSERT INTO doacoes 
+            (doador_id, ubs_id, data_doacao, quantidade_ml, tipo_doacao)
+            VALUES 
+            ('{$doador_id}', '{$ubs_id}', '{$data_doacao}', '{$quantidade_ml}', '{$tipo_doacao}')";
+
+    if ($conn->query($sql) === TRUE) {
+
+        // atualizar ultima doacao
+        $update = "UPDATE cadastrobs 
+                   SET datedonation = '{$data_doacao}' 
+                   WHERE id = '{$doador_id}'";
+        $conn->query($update);
+
+        // atualizar estoque
+        $atualizarEstoque = "UPDATE estoque_sangue 
+                             SET quantidade = quantidade + {$quantidade_ml}
+                             WHERE tipo_sangue = '{$tipo_sanguineo}'";
+
+        $conn->query($atualizarEstoque);
+
+        // ==========================
+        // LOG DA DOAÇÃO
+        // ==========================
+
+        $funcionario = $_SESSION['usuario'];
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $sqlLog = "INSERT INTO logs_estoque
+        (funcionario, acao, tipo_sangue, quantidade, ip)
+        VALUES
+        ('$funcionario','DOACAO','$tipo_sanguineo','$quantidade_ml','$ip')";
+
+        $conn->query($sqlLog);
+
+        echo "<script>alert('Doação cadastrada e estoque atualizado!'); window.location.href='?page=listar_doacoes';</script>";
+
+    } else {
+
+        echo "<script>alert('Erro: " . $conn->error . "'); window.location.href='?page=home';</script>";
+
+    }
+
+break;
+
+
+    // ==========================
+    // CADASTRAR RETIRADA
+    // ==========================
+    case 'cadastrar_retirada':
+
+    $tipo_sangue = $_POST["tipo_sangue"];
+    $quantidade = $_POST["quantidade"];
+    $data = $_POST["data"];
+    $destino = $_POST["destino"];
+    $observacao = $_POST["observacao"];
+
+    // verificar estoque
+    $buscarEstoque = "SELECT quantidade FROM estoque_sangue WHERE tipo_sangue = '{$tipo_sangue}'";
+    $resultadoEstoque = $conn->query($buscarEstoque);
+    $dadosEstoque = $resultadoEstoque->fetch_assoc();
+    $estoqueAtual = $dadosEstoque['quantidade'];
+
+    if ($quantidade > $estoqueAtual) {
+
+        echo "<script>
+        alert('Erro: Estoque insuficiente! Disponível: {$estoqueAtual} ml');
+        window.history.back();
+        </script>";
+
+    } else {
+
+        // registrar retirada
+        $sql = "INSERT INTO retiradas
+                (tipo_sangue, quantidade_ml, data_retirada, destino, observacao)
+                VALUES
+                ('{$tipo_sangue}', '{$quantidade}', '{$data}', '{$destino}', '{$observacao}')";
+
+        if ($conn->query($sql) === TRUE) {
+
+            // atualizar estoque
+            $updateEstoque = "UPDATE estoque_sangue
+                              SET quantidade = quantidade - {$quantidade}
+                              WHERE tipo_sangue = '{$tipo_sangue}'";
+
+            $conn->query($updateEstoque);
+
+            // ==========================
+            // LOG DA RETIRADA
+            // ==========================
+
+            $funcionario = $_SESSION['usuario'];
+            $ip = $_SERVER['REMOTE_ADDR'];
+
+            $sqlLog = "INSERT INTO logs_estoque
+            (funcionario, acao, tipo_sangue, quantidade, ip)
+            VALUES
+            ('$funcionario','RETIRADA','$tipo_sangue','$quantidade','$ip')";
+
+            $conn->query($sqlLog);
+
+            echo "<script>
+            alert('Retirada registrada e estoque atualizado!');
+            window.location.href='?page=dashboard';
+            </script>";
+
+        } else {
+
+            echo "<script>alert('Erro: " . $conn->error . "');</script>";
+
+        }
+
+    }
+
+break;
+
+
+    // ==========================
+    // EDITAR DOADOR
+    // ==========================
     case 'editar':
-        // Captura o ID do usuário a ser editado
+
         $id = $_REQUEST["id"];
-        // Captura os dados do formulário para edição, incluindo o novo campo "sexo"
         $nome = $_POST["nome"];
         $cpf = $_POST["cpf"];
         $telefone = $_POST["telefone"];
@@ -47,12 +185,11 @@ switch ($_REQUEST["acao"]) {
         $complemento = $_POST["complemento"];
         $bairro = $_POST["bairro"];
         $nasc = $_POST["nasc"];
-        $ts = $_POST["ts"]; // Novo campo tipo sanguíneo
-        $datedonation = $_POST["datedonation"]; // Novo campo para data de doação
-        $sexo = $_POST["sexo"]; // Novo campo para sexo (M ou F)
+        $ts = $_POST["ts"];
+        $datedonation = $_POST["datedonation"];
+        $sexo = $_POST["sexo"];
         $peso = $_POST["peso"];
 
-        // Monta a consulta SQL para atualizar os dados, incluindo o campo sexo
         $sql = "UPDATE cadastrobs SET
             nome='{$nome}',
             cpf='{$cpf}',
@@ -68,32 +205,30 @@ switch ($_REQUEST["acao"]) {
             datedonation='{$datedonation}',
             sexo='{$sexo}',
             peso='{$peso}'
-            WHERE id={$id}"; // Adiciona a condição WHERE para identificar o registro
+            WHERE id={$id}";
 
-        // Executa a consulta e verifica se houve erro
         if ($conn->query($sql) === TRUE) {
-            // Se a edição foi bem-sucedida, exibe uma mensagem de sucesso e redireciona
             echo "<script>alert('Editado com sucesso!'); window.location.href='?page=listar';</script>";
         } else {
-            // Se houve erro, exibe uma mensagem de erro e redireciona
             echo "<script>alert('Erro: " . $conn->error . "'); window.location.href='?page=home';</script>";
         }
         break;
 
+
+    // ==========================
+    // EXCLUIR DOADOR
+    // ==========================
     case 'excluir':
-        // Captura o ID do usuário a ser excluído
+
         $id = $_REQUEST["id"];
-        // Monta a consulta SQL para excluir o registro
         $sql = "DELETE FROM cadastrobs WHERE id={$id}";
 
-        // Executa a consulta e verifica se houve erro
         if ($conn->query($sql) === TRUE) {
-            // Se a exclusão foi bem-sucedida, exibe uma mensagem de sucesso e redireciona
             echo "<script>alert('Usuário excluído com sucesso!'); window.location.href='?page=listar';</script>";
         } else {
-            // Se houve erro, exibe uma mensagem de erro e redireciona
             echo "<script>alert('Erro ao excluir: " . $conn->error . "'); window.location.href='?page=home';</script>";
         }
         break;
+
 }
 ?>
