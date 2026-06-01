@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         try {
-            $pdo = new PDO("mysql:host=localhost;dbname=cadastro;charset=utf8", "root", "");
+            $pdo = new PDO("mysql:host=localhost;dbname=BSTQ;charset=utf8", "root", "");
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             // Verifica se o e-mail já existe

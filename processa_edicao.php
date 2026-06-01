@@ -24,7 +24,7 @@ if (($senha !== '' || $confirmarSenha !== '') && $senha !== $confirmarSenha) {
 }
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=cadastro;charset=utf8", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=BSTQ;charset=utf8", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Verifica se o email já existe para outro usuário (excluindo o atual)

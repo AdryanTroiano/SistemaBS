@@ -3,7 +3,7 @@ session_start();
 
 // Conexão com o banco usando PDO
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=cadastro;charset=utf8", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=BSTQ;charset=utf8", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Erro ao conectar com o banco de dados: " . $e->getMessage());
