@@ -61,7 +61,7 @@
 
 <div class="row">
 <div class="column">
-<label>Tipo sanguíneo</label>
+<label>Tipo sanguíneo:<span class="required">*</span></label>
 <select name="tipo_sangue">
 <option value="A+">A+</option>
 <option value="A-">A-</option>
@@ -77,26 +77,26 @@
 
 <div class="row">
 <div class="column">
-<label>Quantidade (ml)</label>
+<label>Quantidade (ml):<span class="required">*</span></label>
 <input type="number" name="quantidade" required>
 </div>
 
 <div class="column">
-<label>Data</label>
+<label>Data:<span class="required">*</span></label>
 <input type="date" name="data" required>
 </div>
 </div>
 
 <div class="row">
 <div class="column">
-<label>Destino</label>
-<input type="text" name="destino">
+<label>Destino:<span class="required">*</span></label>
+<input type="text" name="destino" required>
 </div>
 </div>
 
 <div class="row">
 <div class="column">
-<label>Observação</label>
+<label>Observação:</label>
 <textarea name="observacao"></textarea>
 </div>
 </div>

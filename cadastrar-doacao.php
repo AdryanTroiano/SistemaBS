@@ -41,7 +41,7 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                 <!-- DOADOR -->
                 <div class="row">
                     <div class="column">
-                        <label>Doador<span class="required">*</span></label>
+                        <label>Doador:<span class="required">*</span></label>
                         <select name="doador_id" id="selectDoador" required>
                             <option value="" disabled selected>Selecione o doador</option>
                             <?php while($doador = mysqli_fetch_assoc($doadorQuery)) { ?>
@@ -56,7 +56,7 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                 <!-- UBS -->
                 <div class="row">
                     <div class="column">
-                        <label>UBS<span class="required">*</span></label>
+                        <label>UBS:<span class="required">*</span></label>
                         <select name="ubs_id" required>
                             <option value="" disabled selected>Selecione a UBS</option>
                             <?php while($ubs = mysqli_fetch_assoc($ubsQuery)) { ?>
@@ -71,7 +71,7 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                 <!-- DATA -->
                 <div class="row">
                     <div class="column">
-                        <label>Data da Doação<span class="required">*</span></label>
+                        <label>Data da Doação:<span class="required">*</span></label>
                         <input type="date" name="data_doacao" required>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                 <!-- QUANTIDADE -->
                 <div class="row">
                     <div class="column">
-                        <label>Quantidade (ml)<span class="required">*</span></label>
+                        <label>Quantidade (ml):<span class="required">*</span></label>
                         <input type="number" name="quantidade_ml" min="1" required>
                     </div>
                 </div>

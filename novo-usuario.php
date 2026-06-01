@@ -21,18 +21,18 @@ require_once 'auth.php';
 
                     <div class="row">
                         <div class="column">
-                            <label for="nome">Nome<span class="required">*</span></label>
+                            <label for="nome">Nome:<span class="required">*</span></label>
                             <input type="text" name="nome" id="nome" placeholder="Digite o nome" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
-                            <label for="cpf">CPF<span class="required">*</span></label>
+                            <label for="cpf">CPF:<span class="required">*</span></label>
                             <input type="text" name="cpf" id="cpf" placeholder="Digite o CPF (apenas números)" required>
                         </div>
                         <div class="column">
-                            <label for="sexo">Sexo<span class="required">*</span></label>
+                            <label for="sexo">Sexo:<span class="required">*</span></label>
                             <select name="sexo" id="sexo" required>
                                 <option value="" disabled selected>Selecione o sexo:</option>
                                 <option value="M">Masculino</option>
@@ -40,52 +40,52 @@ require_once 'auth.php';
                             </select>
                         </div>
                         <div class="column">
-                            <label for="data-nascimento">Data de Nascimento<span class="required">*</span></label>
+                            <label for="data-nascimento">Data de Nascimento:<span class="required">*</span></label>
                             <input type="date" name="nasc" id="data-nascimento" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
-                            <label for="email">E-mail<span class="required">*</span></label>
+                            <label for="email">E-mail:<span class="required">*</span></label>
                             <input type="email" name="email" id="email" placeholder="Digite o e-mail" required>
                         </div>
                         <div class="column">
-                            <label for="cep">CEP<span class="required">*</span></label>
+                            <label for="cep">CEP:<span class="required">*</span></label>
                             <input type="text" name="cep" id="cep" placeholder="Digite o CEP (apenas números)" required>
                         </div>
                         <div class="column">
-                            <label for="endereco">Endereço<span class="required">*</span></label>
+                            <label for="endereco">Endereço:<span class="required">*</span></label>
                             <input type="text" name="endereco" id="endereco" placeholder="Digite o endereço" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
-                            <label for="numero">Número<span class="required">*</span></label>
+                            <label for="numero">Número:<span class="required">*</span></label>
                             <input type="text" name="numero" id="numero" placeholder="Digite o número" required>
                         </div>
                         <div class="column">
-                            <label for="bairro">Bairro<span class="required">*</span></label>
+                            <label for="bairro">Bairro:<span class="required">*</span></label>
                             <input type="text" name="bairro" id="bairro" placeholder="Digite o bairro" required>
                         </div>
                         <div class="column">
-                            <label for="complemento">Complemento</label>
+                            <label for="complemento">Complemento:</label>
                             <input type="text" name="complemento" id="complemento" placeholder="Complemento">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="column">
-                            <label for="telefone">Telefone<span class="required">*</span></label>
+                            <label for="telefone">Telefone:<span class="required">*</span></label>
                             <input type="text" name="telefone" id="telefone" placeholder="Digite o telefone (apenas números)" required>
                         </div>
                         <div class="column">
-                            <label for="peso">Peso<span class="required">*</span></label>
+                            <label for="peso">Peso:<span class="required">*</span></label>
                             <input type="text" name="peso" id="peso" placeholder="Ex: 65" min="1" required>
                         </div>
                         <div class="column">
-                            <label for="tipo-sanguineo">Tipo Sanguíneo<span class="required">*</span></label>
+                            <label for="tipo-sanguineo">Tipo Sanguíneo:<span class="required">*</span></label>
                             <select name="ts" id="tipo-sanguineo" required>
                                 <option value="" disabled selected>Selecione o tipo sanguíneo</option>
                                 <option value="A+">A+</option>
