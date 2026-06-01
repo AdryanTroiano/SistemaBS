@@ -8,7 +8,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$sql = "SELECT * FROM BSTQ WHERE id = $id";
+$sql = "SELECT * FROM doadores WHERE id = $id";
 $result = $conn->query($sql);
 
 if ($result->num_rows === 0) {

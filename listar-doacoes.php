@@ -52,7 +52,7 @@ function clearSearch() {
 
 $sql = "SELECT d.*, c.nome AS doador, u.nome AS ubs
         FROM doacoes d
-        LEFT JOIN BSTQ c ON d.doador_id = c.id
+        LEFT JOIN doadores c ON d.doador_id = c.id
         LEFT JOIN ubs u ON d.ubs_id = u.id
         ORDER BY d.data_doacao DESC";
 

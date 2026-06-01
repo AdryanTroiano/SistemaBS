@@ -22,7 +22,7 @@ switch ($_REQUEST["acao"]) {
         $sexo = $_POST["sexo"];
         $peso = $_POST["peso"];
 
-        $sql = "INSERT INTO BSTQ 
+        $sql = "INSERT INTO doadores 
                 (nome, cpf, telefone, email, endereco, numero, cep, complemento, bairro, nasc, ts, datedonation, sexo, peso) 
                 VALUES 
                 ('{$nome}', '{$cpf}', '{$telefone}', '{$email}', '{$endereco}', '{$numero}', '{$cep}', '{$complemento}', '{$bairro}', '{$nasc}', '{$ts}', '{$datedonation}', '{$sexo}', '{$peso}')";
@@ -47,7 +47,7 @@ switch ($_REQUEST["acao"]) {
     $tipo_doacao = $_POST["tipo_doacao"];
 
     // buscar tipo sanguineo
-    $buscarTS = "SELECT ts FROM BSTQ WHERE id = '{$doador_id}'";
+    $buscarTS = "SELECT ts FROM doadores WHERE id = '{$doador_id}'";
     $resultadoTS = $conn->query($buscarTS);
     $dadosTS = $resultadoTS->fetch_assoc();
     $tipo_sanguineo = $dadosTS['ts'];
@@ -61,7 +61,7 @@ switch ($_REQUEST["acao"]) {
     if ($conn->query($sql) === TRUE) {
 
         // atualizar ultima doacao
-        $update = "UPDATE BSTQ
+        $update = "UPDATE doadores
                    SET datedonation = '{$data_doacao}' 
                    WHERE id = '{$doador_id}'";
         $conn->query($update);
@@ -190,7 +190,7 @@ break;
         $sexo = $_POST["sexo"];
         $peso = $_POST["peso"];
 
-        $sql = "UPDATE BSTQ SET
+        $sql = "UPDATE doadores SET
             nome='{$nome}',
             cpf='{$cpf}',
             telefone='{$telefone}',
@@ -221,7 +221,7 @@ break;
     case 'excluir':
 
         $id = $_REQUEST["id"];
-        $sql = "DELETE FROM BSTQ WHERE id={$id}";
+        $sql = "DELETE FROM doadores WHERE id={$id}";
 
         if ($conn->query($sql) === TRUE) {
             echo "<script>alert('Usuário excluído com sucesso!'); window.location.href='?page=listar';</script>";

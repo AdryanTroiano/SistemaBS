@@ -45,7 +45,7 @@ function clearSearch() {
         <tbody>
             <?php
             // Certifique-se de que a conexão com o banco de dados esteja funcionando
-            $sql = "SELECT * FROM BSTQ";
+            $sql = "SELECT * FROM doadores";
             $res = $conn->query($sql);
             $qtd = $res->num_rows;
 

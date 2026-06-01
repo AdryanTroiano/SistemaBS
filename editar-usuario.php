@@ -3,7 +3,7 @@ require_once 'auth.php';
 
 // Busca os dados do usuário com base no ID passado via requisição
 $id = intval($_REQUEST["id"]); // Converte para inteiro para segurança
-$sql = "SELECT * FROM BSTQ WHERE id={$id}";
+$sql = "SELECT * FROM doadores WHERE id={$id}";
 $res = $conn->query($sql); // Executa a consulta no banco de dados
 
 if ($res->num_rows > 0) {

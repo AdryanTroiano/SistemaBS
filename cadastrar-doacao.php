@@ -4,7 +4,7 @@ require_once 'auth.php';
 require_once 'config.php';
 
 // Buscar doadores
-$doadorQuery = mysqli_query($conn, "SELECT id, nome FROM BSTQ ORDER BY nome ASC");
+$doadorQuery = mysqli_query($conn, "SELECT id, nome FROM doadores ORDER BY nome ASC");
 
 // Buscar UBS
 $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");

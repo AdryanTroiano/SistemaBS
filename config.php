@@ -13,7 +13,7 @@ if (!defined('PASS')) {
 }
 
 if (!defined('BASE')) {
-    define('BASE', 'cadastro');    // Nome do banco de dados
+    define('BASE', 'BSTQ');    // Nome do banco de dados
 }
 
 // Criando a conexão com o banco de dados

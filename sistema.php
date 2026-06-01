@@ -50,11 +50,19 @@ if (!isset($_SESSION['usuario'])) {
       </a>
 
       <ul class="linkshamb">
-        <h2 class="menuhamb">Menu</h2>
-        <li><a href="?page=info">Informações</a></li>
+        <h2 class="menuhamb">Movimentações</h2>
+        <li><a href="?page=cadastdoacao">Cadastrar Doação</a></li>
         <hr class="espacamentomenus">
 
-        <li><a href="?page=help">Ajuda</a></li>
+        <li><a href="?page=viewdoacao">Listar Doações</a></li>
+        <hr class="espacamentomenus">
+
+        <li><a href="?page=cadastretirada">Cadastrar Retirada</a></li>
+        <hr class="espacamentomenus">
+
+        <li><a href="?page=viewretirada">Listar Retiradas</a></li>
+
+        <li><a href="?page=help"></a></li>
         <hr class="espacamentomenus">
 
         <h2 class="menuhamb">Menu Doador</h2>

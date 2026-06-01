@@ -2,7 +2,7 @@
 include('config.php'); // Insira sua conexão com o banco
 
 // Consulta ao banco de dados para contar as bolsas de sangue
-$sql = "SELECT ts, COUNT(*) as quantidade FROM BSTQ GROUP BY ts";
+$sql = "SELECT ts, COUNT(*) as quantidade FROM estoque_sangue GROUP BY ts";
 $result = $conn->query($sql);
 
 // Array para armazenar os dados
