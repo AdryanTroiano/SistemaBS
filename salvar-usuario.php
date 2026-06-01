@@ -44,7 +44,6 @@ switch ($_REQUEST["acao"]) {
     $ubs_id = $_POST["ubs_id"];
     $data_doacao = $_POST["data_doacao"];
     $quantidade_ml = $_POST["quantidade_ml"];
-    $tipo_doacao = $_POST["tipo_doacao"];
 
     // buscar tipo sanguineo
     $buscarTS = "SELECT ts FROM doadores WHERE id = '{$doador_id}'";
@@ -54,9 +53,9 @@ switch ($_REQUEST["acao"]) {
 
     // registrar doacao
     $sql = "INSERT INTO doacoes 
-            (doador_id, ubs_id, data_doacao, quantidade_ml, tipo_doacao)
+            (doador_id, ubs_id, data_doacao, quantidade_ml)
             VALUES 
-            ('{$doador_id}', '{$ubs_id}', '{$data_doacao}', '{$quantidade_ml}', '{$tipo_doacao}')";
+            ('{$doador_id}', '{$ubs_id}', '{$data_doacao}', '{$quantidade_ml}')";
 
     if ($conn->query($sql) === TRUE) {
 
