@@ -1,7 +1,24 @@
+<?php
+require_once 'auth.php';
+require_once 'config.php';
+
+$tipos = $conn->query("
+    SELECT id, tipo
+    FROM tipos_sangue
+    ORDER BY tipo
+");
+
+$ubs = $conn->query("
+    SELECT id, nome
+    FROM ubs
+    ORDER BY nome
+");
+?>
+
 <style>
 .retirada-container {
     max-width: 800px;
-    margin: 10px auto; /* diminui a margem superior para subir o conteúdo */
+    margin: 10px auto;
     padding: 30px;
     border-radius: 8px;
 }
@@ -45,10 +62,9 @@
     margin: 0 10%;
     padding-top: 2rem;
     margin-bottom: 1rem;
-    width: auto; 
-    box-sizing: border-box; 
-    text-align: center; 
-    
+    width: auto;
+    box-sizing: border-box;
+    text-align: center;
 }
 </style>
 
@@ -57,52 +73,64 @@
 <form action="sistema.php?page=salvar" method="POST">
 
 <input type="hidden" name="acao" value="cadastrar_retirada">
+
 <h1 id="path7">Cadastrar Retirada</h1>
 
 <div class="row">
-<div class="column">
-<label>Tipo sanguíneo:<span class="required">*</span></label>
-<select name="tipo_sangue">
-<option value="A+">A+</option>
-<option value="A-">A-</option>
-<option value="B+">B+</option>
-<option value="B-">B-</option>
-<option value="AB+">AB+</option>
-<option value="AB-">AB-</option>
-<option value="O+">O+</option>
-<option value="O-">O-</option>
-</select>
-</div>
+    <div class="column">
+        <label>Tipo sanguíneo:<span class="required">*</span></label>
+
+        <select name="tipo_sangue_id" required>
+            <option value="">Selecione</option>
+
+            <?php while($tipo = $tipos->fetch_assoc()) { ?>
+                <option value="<?= $tipo['id']; ?>">
+                    <?= htmlspecialchars($tipo['tipo']); ?>
+                </option>
+            <?php } ?>
+
+        </select>
+    </div>
 </div>
 
 <div class="row">
-<div class="column">
-<label>Quantidade (ml):<span class="required">*</span></label>
-<input type="number" name="quantidade" required>
-</div>
+    <div class="column">
+        <label>Quantidade (ml):<span class="required">*</span></label>
+        <input type="number" name="quantidade" min="1" required>
+    </div>
 
-<div class="column">
-<label>Data:<span class="required">*</span></label>
-<input type="date" name="data" required>
-</div>
-</div>
-
-<div class="row">
-<div class="column">
-<label>Destino:<span class="required">*</span></label>
-<input type="text" name="destino" required>
-</div>
+    <div class="column">
+        <label>Data:<span class="required">*</span></label>
+        <input type="date" name="data" required>
+    </div>
 </div>
 
 <div class="row">
-<div class="column">
-<label>Observação:</label>
-<textarea name="observacao"></textarea>
+    <div class="column">
+        <label>UBS Destino:<span class="required">*</span></label>
+
+        <select name="ubs_id" required>
+            <option value="">Selecione</option>
+
+            <?php while($u = $ubs->fetch_assoc()) { ?>
+                <option value="<?= $u['id']; ?>">
+                    <?= htmlspecialchars($u['nome']); ?>
+                </option>
+            <?php } ?>
+
+        </select>
+    </div>
 </div>
+
+<div class="row">
+    <div class="column">
+        <label>Observação:</label>
+        <textarea name="observacao"></textarea>
+    </div>
 </div>
 
 <div class="row button-column">
-<button type="submit">Registrar Retirada</button>
+    <button type="submit">Registrar Retirada</button>
 </div>
 
 </form>

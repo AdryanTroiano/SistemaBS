@@ -6,8 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confirmarSenha = $_POST['confirmar_senha'] ?? '';
     $nivel = $_POST['nivel'] ?? '';
 
-    // Validação básica do nível (pode ser 'usuario' ou 'admin')
-    $niveis_validos = ['usuario', 'admin'];
+    $niveis_validos = ['padrao', 'admin'];
 
     if ($nome && $email && $senha && $confirmarSenha && $nivel) {
         if (!in_array($nivel, $niveis_validos)) {
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo = new PDO("mysql:host=localhost;dbname=BSTQ;charset=utf8", "root", "");
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            // Verifica se o e-mail já existe
             $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
             $stmt->execute([$email]);
 
@@ -33,10 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
-            // Criptografa a senha
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-            // Insere no banco incluindo o campo nível
             $stmt = $pdo->prepare("INSERT INTO usuarios (usuario, email, senha, nivel) VALUES (?, ?, ?, ?)");
             $stmt->execute([$nome, $email, $senhaHash, $nivel]);
 

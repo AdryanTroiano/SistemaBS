@@ -7,7 +7,7 @@ require_once 'config.php';
 $doadorQuery = mysqli_query($conn, "SELECT id, nome FROM doadores ORDER BY nome ASC");
 
 // Buscar UBS
-$ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
+$ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs ORDER BY nome ASC");
 ?>
 
 <!DOCTYPE html>
@@ -23,14 +23,12 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
 <div class="container">
     <h1 id="path2">Cadastrar Doação</h1>
 
-    <!-- 🔥 AQUI ESTÁ A CORREÇÃO -->
     <form action="sistema.php?page=salvar" method="POST">
         <input type="hidden" name="acao" value="cadastrar_doacao">
 
         <div class="contentform">
             <div class="form-container">
 
-                <!-- PESQUISA DOADOR -->
                 <div class="row">
                     <div class="column">
                         <label>Pesquisar Doador</label>
@@ -38,37 +36,38 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                     </div>
                 </div>
 
-                <!-- DOADOR -->
                 <div class="row">
                     <div class="column">
                         <label>Doador:<span class="required">*</span></label>
                         <select name="doador_id" id="selectDoador" required>
                             <option value="" disabled selected>Selecione o doador</option>
+
                             <?php while($doador = mysqli_fetch_assoc($doadorQuery)) { ?>
                                 <option value="<?= $doador['id']; ?>">
-                                    <?= $doador['nome']; ?>
+                                    <?= htmlspecialchars($doador['nome']); ?>
                                 </option>
                             <?php } ?>
+
                         </select>
                     </div>
                 </div>
 
-                <!-- UBS -->
                 <div class="row">
                     <div class="column">
                         <label>UBS:<span class="required">*</span></label>
                         <select name="ubs_id" required>
                             <option value="" disabled selected>Selecione a UBS</option>
+
                             <?php while($ubs = mysqli_fetch_assoc($ubsQuery)) { ?>
                                 <option value="<?= $ubs['id']; ?>">
-                                    <?= $ubs['nome']; ?>
+                                    <?= htmlspecialchars($ubs['nome']); ?>
                                 </option>
                             <?php } ?>
+
                         </select>
                     </div>
                 </div>
 
-                <!-- DATA -->
                 <div class="row">
                     <div class="column">
                         <label>Data da Doação:<span class="required">*</span></label>
@@ -76,7 +75,6 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
                     </div>
                 </div>
 
-                <!-- QUANTIDADE -->
                 <div class="row">
                     <div class="column">
                         <label>Quantidade (ml):<span class="required">*</span></label>
@@ -94,7 +92,6 @@ $ubsQuery = mysqli_query($conn, "SELECT id, nome FROM ubs");
 </div>
 
 <script>
-// Filtro em tempo real do select
 document.getElementById("pesquisaDoador").addEventListener("keyup", function() {
     let filtro = this.value.toLowerCase();
     let options = document.getElementById("selectDoador").options;

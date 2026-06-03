@@ -72,6 +72,14 @@ if (!isset($_SESSION['usuario'])) {
         <li><a href="?page=listar">Listar Doadores</a></li>
         <hr class="espacamentomenus">
 
+        <h2 class="menuhamb">UBS</h2>
+
+<li><a href="?page=cadastrar_ubs">Cadastrar UBS</a></li>
+<hr class="espacamentomenus">
+
+<li><a href="?page=listar_ubs">Listar UBS</a></li>
+<hr class="espacamentomenus">
+
         <h2 class="menuhamb">Usuários</h2>
 
         <?php if (isAdmin()): ?>
@@ -89,65 +97,77 @@ if (!isset($_SESSION['usuario'])) {
     </div>
 
 
-    <!-- MENU PRINCIPAL -->
-    <div class="navbar-nav">
+<!-- MENU PRINCIPAL -->
+<div class="navbar-nav">
 
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#">
-          <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doador
-        </a>
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#">
+      <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doador
+    </a>
 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="?page=novo">Cadastrar Doadores</a></li>
-          <li><a class="dropdown-item" href="?page=listar">Listar Doadores</a></li>
-        </ul>
-      </div>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="?page=novo">Cadastrar Doadores</a></li>
+      <li><a class="dropdown-item" href="?page=listar">Listar Doadores</a></li>
+    </ul>
+  </div>
 
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#">
+      <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doações
+    </a>
 
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#">
-          <ion-icon class="icones" name="list-circle-outline"></ion-icon> Doações
-        </a>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="?page=cadastdoacao">Cadastrar Doação</a></li>
+      <li><a class="dropdown-item" href="?page=viewdoacao">Listar Doações</a></li>
+    </ul>
+  </div>
 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="?page=cadastdoacao">Cadastrar Doação</a></li>
-          <li><a class="dropdown-item" href="?page=viewdoacao">Listar Doações</a></li>
-        </ul>
-      </div>
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#">
+      <ion-icon class="icones" name="list-circle-outline"></ion-icon> Retiradas
+    </a>
 
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="?page=cadastretirada">Cadastrar Retirada</a></li>
+      <li><a class="dropdown-item" href="?page=viewretirada">Listar Retiradas</a></li>
+    </ul>
+  </div>
 
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#">
-          <ion-icon class="icones" name="list-circle-outline"></ion-icon> Retiradas
-        </a>
+  <!-- UBS -->
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#">
+      <ion-icon class="icones" name="business-outline"></ion-icon> UBS
+    </a>
 
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="?page=cadastretirada">Cadastrar Retirada</a></li>
-          <li><a class="dropdown-item" href="?page=viewretirada">Listar Retiradas</a></li>
-        </ul>
-      </div>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="?page=cadastrar_ubs">Cadastrar UBS</a></li>
+      <li><a class="dropdown-item" href="?page=listar_ubs">Listar UBS</a></li>
+    </ul>
+  </div>
 
+  <!-- MENU USUÁRIO -->
+  <div class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#">
+      <ion-icon class="icones" name="person-circle-outline"></ion-icon>
+      <?php echo htmlspecialchars($_SESSION['usuario'] ?? ''); ?>
+    </a>
 
-      <!-- MENU USUÁRIO -->
-      <div class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#">
-          <ion-icon class="icones" name="person-circle-outline"></ion-icon>
-          <?php echo htmlspecialchars($_SESSION['usuario'] ?? ''); ?>
-        </a>
+    <ul class="dropdown-menu">
 
-        <ul class="dropdown-menu">
+      <?php if (isAdmin()): ?>
+      <li><a class="dropdown-item" href="cadastrousers.php">Cadastrar Usuário</a></li>
+      <?php endif; ?>
 
-          <?php if (isAdmin()): ?>
-          <li><a class="dropdown-item" href="cadastrousers.php">Cadastrar Usuário</a></li>
-          <?php endif; ?>
+      <li><a class="dropdown-item" href="editfun.php?id=<?php echo $_SESSION['usuario_id']; ?>">Editar Cadastro</a></li>
 
-          <li><a class="dropdown-item" href="editfun.php?id=<?php echo $_SESSION['usuario_id']; ?>">Editar Cadastro</a></li>
-          <li><a class="dropdown-item" href="logout.php">Encerrar sessão</a></li>
+      <li><a class="dropdown-item" href="logout.php">Encerrar sessão</a></li>
 
-        </ul>
-      </div>
+    </ul>
+  </div>
 
-    </div>
+</div>
+
+    
 
 
     <!-- VLibras -->
@@ -185,6 +205,10 @@ if (!isset($_SESSION['usuario'])) {
         case "listar2": include("listar2.php"); break;
         case "mapa": include("mapa.php"); break;
         case "editestoque": include("editar_estoque.php"); break;
+        case "cadastrar_ubs": include("cadastrar-ubs.php"); break;
+        case "listar_ubs": include("listar-ubs.php"); break;
+        case "editar_ubs": include("editar-ubs.php"); break;
+        case "salvar_ubs": include("salvar-ubs.php"); break;
         default: include("dashboard.php");
       }
     ?>

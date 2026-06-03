@@ -1,8 +1,17 @@
 <?php
-include('config.php'); // Insira sua conexão com o banco
+include('config.php');
 
-// Consulta ao banco de dados para contar as bolsas de sangue
-$sql = "SELECT ts, COUNT(*) as quantidade FROM estoque_sangue GROUP BY ts";
+// Busca os tipos sanguíneos e suas quantidades no estoque
+$sql = "
+SELECT
+    ts.tipo,
+    es.quantidade
+FROM estoque_sangue es
+INNER JOIN tipos_sangue ts
+    ON es.tipo_sangue_id = ts.id
+ORDER BY ts.tipo
+";
+
 $result = $conn->query($sql);
 
 // Array para armazenar os dados
@@ -11,15 +20,15 @@ $estoqueSangue = [];
 // Verifica se a consulta retornou resultados
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        // Adiciona os tipos sanguíneos e suas quantidades ao array
+
         $estoqueSangue[] = [
-            'tipo' => $row['ts'], // 'ts' deve ser o campo que identifica o tipo sanguíneo
+            'tipo' => $row['tipo'],
             'quantidade' => $row['quantidade']
         ];
     }
 }
 
-// Define o cabeçalho para JSON e imprime os dados
+// Retorna os dados em JSON
 header('Content-Type: application/json');
 echo json_encode($estoqueSangue);
 ?>

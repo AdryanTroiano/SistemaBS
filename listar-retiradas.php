@@ -6,7 +6,7 @@ require_once 'auth.php';
 <br>
 
 <div class="search-container" style="display: flex; justify-content: center;">
-    <input type="text" id="searchInput" placeholder="Buscar por destino" class="form-control" onkeyup="filterTable()" style="width: 300px;">
+    <input type="text" id="searchInput" placeholder="Buscar por UBS" class="form-control" onkeyup="filterTable()" style="width: 300px;">
     <button onclick="clearSearch()" class="btnlimp">Limpar</button>
 </div>
 
@@ -18,7 +18,8 @@ function filterTable() {
     const tr = table.getElementsByTagName('tr');
 
     for (let i = 1; i < tr.length; i++) {
-        const td = tr[i].getElementsByTagName('td')[2]; // destino
+        const td = tr[i].getElementsByTagName('td')[2];
+
         if (td) {
             const txtValue = td.textContent || td.innerText;
             tr[i].style.display = txtValue.toLowerCase().indexOf(filter) > -1 ? "" : "none";
@@ -37,54 +38,57 @@ function clearSearch() {
 <div style="display: flex; justify-content: center;">
 <table class='table' id="dataTable" style="width: 90%; max-width: 1000px;">
 <thead>
-
 <tr>
-<th style="text-align:center;">Tipo Sanguíneo</th>
-<th style="text-align:center;">Quantidade (ml)</th>
-<th style="text-align:center;">Destino</th>
-<th style="text-align:center;">Data</th>
-<th style="text-align:center;">Observação</th>
+    <th style="text-align:center;">Tipo Sanguíneo</th>
+    <th style="text-align:center;">Quantidade (ml)</th>
+    <th style="text-align:center;">UBS</th>
+    <th style="text-align:center;">Data</th>
+    <th style="text-align:center;">Observação</th>
 </tr>
-
 </thead>
 
 <tbody>
 
 <?php
+$sql = "
+    SELECT 
+        r.quantidade_ml,
+        r.data_retirada,
+        r.observacao,
+        ts.tipo AS tipo_sangue,
+        u.nome AS ubs
+    FROM retiradas r
+    INNER JOIN tipos_sangue ts ON r.tipo_sangue_id = ts.id
+    INNER JOIN ubs u ON r.ubs_id = u.id
+    ORDER BY r.data_retirada DESC
+";
 
-$sql = "SELECT * FROM retiradas ORDER BY data_retirada DESC";
 $res = $conn->query($sql);
-$qtd = $res->num_rows;
+$qtd = $res ? $res->num_rows : 0;
 
 if ($qtd > 0) {
-
     while ($row = $res->fetch_object()) {
-
         echo "<tr>";
 
-        echo "<td style='text-align:center;'>".$row->tipo_sangue."</td>";
+        echo "<td style='text-align:center;'>" . htmlspecialchars($row->tipo_sangue) . "</td>";
 
-        echo "<td style='text-align:center;'>".$row->quantidade_ml."</td>";
+        echo "<td style='text-align:center;'>" . htmlspecialchars($row->quantidade_ml) . "</td>";
 
-        echo "<td style='text-align:center;'>".htmlspecialchars($row->destino)."</td>";
+        echo "<td style='text-align:center;'>" . htmlspecialchars($row->ubs) . "</td>";
 
-        echo "<td style='text-align:center;'>".date("d/m/Y", strtotime($row->data_retirada))."</td>";
+        echo "<td style='text-align:center;'>" . date("d/m/Y", strtotime($row->data_retirada)) . "</td>";
 
-        echo "<td style='text-align:center;'>".htmlspecialchars($row->observacao)."</td>";
+        echo "<td style='text-align:center;'>" . htmlspecialchars($row->observacao) . "</td>";
 
         echo "</tr>";
     }
-
 } else {
-
-echo "<tr>
-<td colspan='5' class='text-center alert alert-danger'>
-Não há retiradas registradas!
-</td>
-</tr>";
-
+    echo "<tr>
+        <td colspan='5' class='text-center alert alert-danger'>
+            Não há retiradas registradas!
+        </td>
+    </tr>";
 }
-
 ?>
 
 </tbody>

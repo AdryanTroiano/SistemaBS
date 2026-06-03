@@ -30,72 +30,69 @@ try {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="styleeditfun.css">
   <title>Editar Usuário</title>
-  <link rel="stylesheet" href="styleeditfun.css">
 </head>
 <body>
 
-<!-- Container VLibras -->
 <div vw class="enabled">
-    <div vw-access-button class="active"></div>
-    <div vw-plugin-wrapper>
-      <div class="vw-plugin-top-wrapper"></div>
-    </div>
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
   </div>
+</div>
 
-  <div class="container">
-    <h2>Editar Usuário</h2>
-    <form action="processa_edicao.php" method="POST" id="formEdicao">
-      <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>" />
+<div class="container">
+  <h2>Editar Usuário</h2>
 
-      <label for="nome">Nome Completo</label>
-      <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($user['usuario']) ?>" />
+  <form action="processa_edicao.php" method="POST" id="formEdicao">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($user['id']) ?>" />
 
-      <label for="email">E-mail</label>
-      <input type="email" id="email" name="email" required value="<?= htmlspecialchars($user['email']) ?>" />
+    <label for="nome">Nome Completo</label>
+    <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($user['usuario']) ?>" />
 
-      <label for="senha">Nova Senha (deixe em branco para não alterar)</label>
-      <input type="password" id="senha" name="senha" />
+    <label for="email">E-mail</label>
+    <input type="email" id="email" name="email" required value="<?= htmlspecialchars($user['email']) ?>" />
 
-      <label for="confirmar_senha">Confirmar Senha</label>
-      <input type="password" id="confirmar_senha" name="confirmar_senha" />
+    <label for="senha">Nova Senha (deixe em branco para não alterar)</label>
+    <input type="password" id="senha" name="senha" />
 
-      <input type="submit" value="Salvar Alterações" />
-    </form>
+    <label for="confirmar_senha">Confirmar Senha</label>
+    <input type="password" id="confirmar_senha" name="confirmar_senha" />
 
-    <p id="erroSenha">As senhas não coincidem. Tente novamente.</p>
-  </div>
+    <input type="submit" value="Salvar Alterações" />
+  </form>
 
-  <script>
-    const form = document.getElementById("formEdicao");
+  <p id="erroSenha">As senhas não coincidem. Tente novamente.</p>
+</div>
 
-    form.addEventListener("submit", function(event) {
-      const senha = document.getElementById("senha").value;
-      const confirmarSenha = document.getElementById("confirmar_senha").value;
-      const erro = document.getElementById("erroSenha");
+<script>
+const form = document.getElementById("formEdicao");
 
-      // Verifica senha
-      if (senha || confirmarSenha) {
-        if (senha !== confirmarSenha) {
-          event.preventDefault();
-          erro.style.display = "block";
-          return;
-        }
-      }
+form.addEventListener("submit", function(event) {
+  const senha = document.getElementById("senha").value;
+  const confirmarSenha = document.getElementById("confirmar_senha").value;
+  const erro = document.getElementById("erroSenha");
 
-      // Se tudo certo, aplica transição antes de enviar
+  if (senha || confirmarSenha) {
+    if (senha !== confirmarSenha) {
       event.preventDefault();
-      document.body.classList.add("fade-out");
+      erro.style.display = "block";
+      return;
+    }
+  }
 
-      setTimeout(() => {
-        form.submit();
-      }, 500); // Tempo da animação
-    });
-  </script>
+  event.preventDefault();
+  document.body.classList.add("fade-out");
+
+  setTimeout(() => {
+    form.submit();
+  }, 500);
+});
+</script>
 
 <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-  <script>
-    new window.VLibras.Widget('https://vlibras.gov.br/app');
-  </script>
-  
+<script>
+new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
 </body>
 </html>

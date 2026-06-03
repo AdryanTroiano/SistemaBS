@@ -8,7 +8,16 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 }
 
 $id = intval($_GET['id']);
-$sql = "SELECT * FROM doadores WHERE id = $id";
+
+$sql = "
+    SELECT 
+        d.*,
+        ts.tipo AS tipo_sangue
+    FROM doadores d
+    LEFT JOIN tipos_sangue ts ON d.tipo_sangue_id = ts.id
+    WHERE d.id = $id
+";
+
 $result = $conn->query($sql);
 
 if ($result->num_rows === 0) {
@@ -24,20 +33,20 @@ $doador = $result->fetch_object();
 
     <div class="doador-detalhes-tabela-container">
         <table class="doador-detalhes-tabela" id="printTable">
-            <tr><th>ID</th><td><?php echo $doador->id; ?></td></tr>
+            <tr><th>ID</th><td><?php echo htmlspecialchars($doador->id); ?></td></tr>
             <tr><th>Nome</th><td><?php echo htmlspecialchars($doador->nome); ?></td></tr>
-            <tr><th>Sexo</th><td><?php echo $doador->sexo; ?></td></tr>
+            <tr><th>Sexo</th><td><?php echo htmlspecialchars($doador->sexo); ?></td></tr>
             <tr><th>CPF</th><td><input type="password" id="cpfField" value="<?php echo htmlspecialchars($doador->cpf); ?>" disabled></td></tr>
-            <tr><th>Telefone</th><td><?php echo $doador->telefone; ?></td></tr>
-            <tr><th>Email</th><td><?php echo $doador->email; ?></td></tr>
-            <tr><th>Endereço</th><td><?php echo $doador->endereco; ?></td></tr>
-            <tr><th>Número</th><td><?php echo $doador->numero; ?></td></tr>
-            <tr><th>CEP</th><td><?php echo $doador->cep; ?></td></tr>
-            <tr><th>Complemento</th><td><?php echo $doador->complemento; ?></td></tr>
-            <tr><th>Bairro</th><td><?php echo $doador->bairro; ?></td></tr>
+            <tr><th>Telefone</th><td><?php echo htmlspecialchars($doador->telefone); ?></td></tr>
+            <tr><th>Email</th><td><?php echo htmlspecialchars($doador->email); ?></td></tr>
+            <tr><th>Endereço</th><td><?php echo htmlspecialchars($doador->endereco); ?></td></tr>
+            <tr><th>Número</th><td><?php echo htmlspecialchars($doador->numero); ?></td></tr>
+            <tr><th>CEP</th><td><?php echo htmlspecialchars($doador->cep); ?></td></tr>
+            <tr><th>Complemento</th><td><?php echo htmlspecialchars($doador->complemento); ?></td></tr>
+            <tr><th>Bairro</th><td><?php echo htmlspecialchars($doador->bairro); ?></td></tr>
             <tr><th>Nascimento</th><td><?php echo (new DateTime($doador->nasc))->format('d/m/Y'); ?></td></tr>
-            <tr><th>Tipo Sanguíneo</th><td><?php echo $doador->ts; ?></td></tr>
-            <tr><th>Peso</th><td><?php echo $doador->peso; ?></td></tr>
+            <tr><th>Tipo Sanguíneo</th><td><?php echo htmlspecialchars($doador->tipo_sangue); ?></td></tr>
+            <tr><th>Peso</th><td><?php echo htmlspecialchars($doador->peso); ?></td></tr>
         </table>
     </div>
 
@@ -50,7 +59,7 @@ $doador = $result->fetch_object();
             <i class="fas fa-edit"></i> Editar
         </a>
 
-        <a href="?page=excluir&id=<?php echo $doador->id; ?>" class="doador-detalhes-btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este doador?');">
+        <a href="?page=salvar&acao=excluir&id=<?php echo $doador->id; ?>" class="doador-detalhes-btn btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este doador?');">
             <i class="fas fa-trash-alt"></i> Excluir
         </a>
 
@@ -58,7 +67,6 @@ $doador = $result->fetch_object();
             <i class="fas fa-print"></i> Imprimir
         </button>
 
-        <!-- Correção aqui -->
         <button class="doador-detalhes-btn btn-exibir-cpf" onclick="toggleCpfVisibility(this)">
             <i class="fas fa-eye"></i> Mostrar CPF
         </button>
@@ -77,23 +85,17 @@ function printTable() {
 
 function toggleCpfVisibility(buttonElement) {
     var cpfField = document.getElementById("cpfField");
-    var icon = buttonElement.querySelector("i");
 
     if (cpfField.type === "password") {
         cpfField.type = "text";
-        icon.classList.remove("fa-eye");
-        icon.classList.add("fa-eye-slash");
         buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i> Esconder CPF';
     } else {
         cpfField.type = "password";
-        icon.classList.remove("fa-eye-slash");
-        icon.classList.add("fa-eye");
         buttonElement.innerHTML = '<i class="fas fa-eye"></i> Mostrar CPF';
     }
 }
 </script>
 
-<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <style>
@@ -198,7 +200,6 @@ function toggleCpfVisibility(buttonElement) {
     margin-top: 30px;
 }
 
-/* Responsivo */
 @media (max-width: 600px) {
     .doador-detalhes-titulo {
         font-size: 22px;
