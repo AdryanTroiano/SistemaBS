@@ -8,7 +8,7 @@ if (!isset($_GET['id'])) {
 $id = (int) $_GET['id'];
 
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=cadastro;charset=utf8", "root", "");
+    $pdo = new PDO("mysql:host=localhost;dbname=bstq;charset=utf8", "root", "");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
